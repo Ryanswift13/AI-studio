@@ -1,0 +1,37 @@
+{
+  "name": "claudio",
+  "version": "1.0.0",
+  "description": "Claudio — 个人 AI 电台 (Personal AI Radio Station)",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "org.claudio.app",
+    "productName": "Claudio",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "core/**/*",
+      "renderer/**/*",
+      "prompts/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      "user",
+      ".env.example"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

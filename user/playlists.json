@@ -1,0 +1,30 @@
+{
+  "playlists": [
+    {
+      "name": "深夜公路",
+      "mood": "深夜 / 放松",
+      "tracks": [
+        { "name": "If", "artist": "Bread" },
+        { "name": "Hotel California", "artist": "Eagles" },
+        { "name": "Don't Know Why", "artist": "Norah Jones" }
+      ]
+    },
+    {
+      "name": "写代码用",
+      "mood": "专注",
+      "tracks": [
+        { "name": "Departure", "artist": "雷光夏" },
+        { "name": "Comptine d'un autre été", "artist": "Yann Tiersen" },
+        { "name": "Waltz for Debby", "artist": "Bill Evans" }
+      ]
+    },
+    {
+      "name": "明亮的早晨",
+      "mood": "早晨",
+      "tracks": [
+        { "name": "旅行的意义", "artist": "陈绮贞" },
+        { "name": "Wake Me Up When September Ends", "artist": "Green Day" }
+      ]
+    }
+  ]
+}

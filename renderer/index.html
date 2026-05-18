@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
+                 img-src 'self' data:; media-src 'self' media: data: blob: http: https:;
+                 connect-src 'self'" />
+  <title>Claudio FM</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 顶栏（窗口拖拽区）-->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">◐</div>
+        <span class="brand-name">Claudio</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="loginBtn" class="pill sm">LOGIN</button>
+        <div class="theme-toggle" id="themeToggle">
+          <button data-theme-set="dark" class="active">DARK</button>
+          <button data-theme-set="light">LIGHT</button>
+        </div>
+        <div class="winctl">
+          <button id="winMin" title="最小化">─</button>
+          <button id="winClose" title="关闭">✕</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 视图切换 -->
+    <nav class="tabs" id="tabs">
+      <button data-view="player" class="active">PLAYER</button>
+      <button data-view="profile">PROFILE</button>
+      <button data-view="settings">SETTINGS</button>
+    </nav>
+
+    <main>
+      <!-- ───────── PLAYER ───────── -->
+      <section id="view-player" class="view active">
+        <!-- 点阵时钟 -->
+        <div class="panel clock-panel">
+          <canvas id="clock"></canvas>
+          <div class="clock-day" id="clockDay">—</div>
+          <div class="clock-date" id="clockDate">—</div>
+          <div class="onair"><span class="dot live"></span> ON AIR</div>
+        </div>
+
+        <!-- Now-playing -->
+        <div class="panel nowbar">
+          <div class="now-top">
+            <div class="eq" id="eq"><i></i><i></i><i></i><i></i></div>
+            <div class="now-meta">
+              <div class="now-title" id="nowTitle">等待 Claudio 选曲…</div>
+              <div class="now-state" id="nowState">IDLE</div>
+            </div>
+            <div class="transport">
+              <button id="btnPrev" title="上一首">⏮</button>
+              <button id="btnPlay" title="播放/暂停">⏯</button>
+              <button id="btnNext" title="下一首">⏭</button>
+              <button id="btnStop" title="停止">⏹</button>
+              <button id="btnFav" class="fav" title="收藏">♥</button>
+            </div>
+          </div>
+          <div class="now-bottom">
+            <button id="btnHide" class="pill sm">HIDE</button>
+            <button id="btnFavTag" class="pill sm">FAV</button>
+            <label class="vol">VOL
+              <input type="range" id="vol" min="0" max="100" value="80" />
+            </label>
+          </div>
+          <div class="progress">
+            <span id="curTime" class="t">0:00</span>
+            <div class="bar" id="bar"><div class="fill" id="barFill"></div></div>
+            <span id="durTime" class="t">0:00</span>
+          </div>
+        </div>
+
+        <!-- 队列 -->
+        <div class="queue">
+          <div class="section-head"><span>QUEUE</span><span id="queueCount">0 TRACKS</span></div>
+          <ul id="queueList" class="queue-list"></ul>
+        </div>
+
+        <!-- 聊天流 -->
+        <div class="feed">
+          <div class="section-head feed-head">
+            <span class="live-tag"><span class="dot live" id="liveDot"></span> Claudio</span>
+            <span id="feedState">LIVE</span>
+          </div>
+          <div class="feed-status" id="connLine">连接 Claudio server…</div>
+          <div id="messages" class="messages"></div>
+        </div>
+      </section>
+
+      <!-- ───────── PROFILE ───────── -->
+      <section id="view-profile" class="view">
+        <div class="section-head"><span>品味画像</span><span id="profileMeta"></span></div>
+        <div id="profileBody" class="profile-body">读取中…</div>
+      </section>
+
+      <!-- ───────── SETTINGS ───────── -->
+      <section id="view-settings" class="view">
+        <div class="section-head"><span>集成状态</span><span id="settingsMeta"></span></div>
+        <div id="integrations" class="integrations">读取中…</div>
+        <div class="section-head"><span>今日规划</span></div>
+        <div id="planBox" class="plan-box">尚无规划</div>
+        <div class="section-head"><span>用户语料</span></div>
+        <p class="hint">编辑项目 <code>user/</code> 目录下的文件，让 Claudio 真正属于你：
+          <code>taste.md</code> · <code>routines.md</code> · <code>mood-rules.md</code> ·
+          <code>playlists.json</code>。修改后重启生效。</p>
+        <p class="hint">复制 <code>.env.example</code> 为 <code>.env</code> 可接入 DeepSeek、
+          网易云、Fish Audio、飞书、UPnP 功放；留空则自动降级为本地模拟。</p>
+      </section>
+    </main>
+
+    <!-- 输入栏 -->
+    <footer class="inputbar" id="inputbar">
+      <input id="chatInput" type="text" placeholder="Say something to the DJ..." autocomplete="off" />
+      <button id="micBtn" class="round" title="语音输入">🎤</button>
+      <button id="sendBtn" class="round send" title="发送">↑</button>
+    </footer>
+    <div class="statusbar">
+      <span>CLAUDIO FM</span>
+      <span id="statusRight">CONNECTING…</span>
+    </div>
+  </div>
+
+  <!-- 网易云扫码登录 -->
+  <div id="ncmLoginModal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <span>网易云音乐 · 扫码登录</span>
+        <button type="button" id="ncmLoginClose" class="modal-close" title="关闭">✕</button>
+      </div>
+      <p class="modal-hint" id="ncmLoginHint">请先用手机网易云 App 扫描下方二维码</p>
+      <div class="modal-qr-wrap">
+        <img id="ncmLoginQr" class="modal-qr" alt="登录二维码" hidden />
+        <div id="ncmLoginLoading" class="modal-loading">正在连接本地 API…</div>
+      </div>
+      <p class="modal-status" id="ncmLoginStatus"></p>
+      <div class="modal-actions">
+        <button type="button" id="ncmLoginRefresh" class="pill sm">刷新二维码</button>
+      </div>
+      <p class="modal-foot">需在本机运行 <code>npx NeteaseCloudMusicApi</code>（默认端口 3000）</p>
+    </div>
+  </div>
+
+  <audio id="audio" preload="auto"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
