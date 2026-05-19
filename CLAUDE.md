@@ -59,7 +59,7 @@ DJ 大脑产出固定契约 `{say, play[], reason, segue, source}`，由 `prompt
 |---|---|
 | DeepSeek key | `dj-util.mockResponse`：按时段从 `playlists.json` 选曲 |
 | NeteaseCloudMusicApi 不可达 | `ncm.mockTrack`：占位元数据 + 正弦音 WAV |
-| Fish key | `tts.speak` 返回 `audio:null`，仅展示台词文本 |
+| TTS | `tts.speak`：Fish（有 key）→ Edge TTS（免费）→ `audio:null` 纯文本 |
 | 天气 / 飞书 / UPnP | 省略环境注入 / 日历空 / 仅记日志 |
 
 ### 关键模块约定

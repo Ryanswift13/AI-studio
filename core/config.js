@@ -59,11 +59,17 @@ const config = {
     level: get('NCM_LEVEL', 'exhigh'),
     // 可选：手动粘贴浏览器 Cookie（含 MUSIC_U），登录接口未写入时兜底
     cookie: get('NCM_COOKIE', ''),
+    // 1 = Claudio 启动时自动拉起本地 NeteaseCloudMusicApi 服务
+    autostart: get('NCM_AUTOSTART', '1') === '1',
   },
   fish: {
     apiKey: get('FISH_API_KEY', ''),
     voiceId: get('FISH_VOICE_ID', ''),
     baseUrl: get('FISH_BASE_URL', 'https://api.fish.audio'),
+  },
+  edge: {
+    // 微软 Edge 免费神经语音；未配 Fish 时作为默认 TTS
+    voice: get('EDGE_TTS_VOICE', 'zh-CN-XiaoxiaoNeural'),
   },
   weather: {
     lat: num('WEATHER_LAT', 31.23),

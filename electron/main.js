@@ -3,6 +3,7 @@
 const { app, BrowserWindow, protocol } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const ncmServer = require('../core/ncm-server');
 
 // media:// 必须在 app ready 前声明为特权协议，<audio> 才能正常 seek。
 protocol.registerSchemesAsPrivileged([
@@ -67,6 +68,7 @@ app.whenReady().then(() => {
     return new Response('not found', { status: 404 });
   });
 
+  ncmServer.start();
   ipc.register(getWindow);
   scheduler.start();
   createWindow(config);
@@ -75,6 +77,8 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow(config);
   });
 });
+
+app.on('will-quit', () => ncmServer.stop());
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();

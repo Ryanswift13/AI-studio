@@ -8,6 +8,7 @@ const bus = require('../core/bus');
 const deepseek = require('../core/deepseek');
 const ncm = require('../core/integrations/ncm');
 const fish = require('../core/integrations/fish');
+const edge = require('../core/integrations/edge-tts');
 const weather = require('../core/integrations/weather');
 const feishu = require('../core/integrations/feishu');
 const upnp = require('../core/integrations/upnp');
@@ -19,6 +20,7 @@ async function tasteProfile() {
     deepseek.status(),
     ncm.status(),
     fish.status(),
+    edge.status(),
     weather.status(),
     feishu.status(),
     upnp.status(),
