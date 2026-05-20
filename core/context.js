@@ -7,7 +7,7 @@ const { paths } = require('./paths');
 const state = require('./state');
 const memory = require('./memory');
 const weather = require('./integrations/weather');
-const feishu = require('./integrations/feishu');
+const calendar = require('./integrations/calendar');
 
 function readSafe(file) {
   try {
@@ -51,7 +51,7 @@ async function pieceEnvironment() {
   const lines = [`当前时间：${now.toLocaleDateString('zh-CN')} ${week} ${hhmm}`];
   const [w, cal] = await Promise.all([
     weather.summary().catch(() => ''),
-    feishu.summary().catch(() => ''),
+    calendar.summary().catch(() => ''),
   ]);
   if (w) lines.push(`天气：${w}`);
   if (cal) lines.push(`今日日程：${cal}`);
@@ -111,7 +111,7 @@ async function build(opts = {}) {
   const system = [piecePersona(), '\n## 用户语料\n', pieceUserCorpus()].join('\n');
 
   const env = await pieceEnvironment();
-  const memory = pieceMemory();
+  const memPiece = pieceMemory();
 
   // 片 5：用户输入 / 工具结果
   const piece5 = [];
@@ -123,7 +123,7 @@ async function build(opts = {}) {
     env,
     '',
     '## 最近记忆',
-    memory || '（暂无）',
+    memPiece || '（暂无）',
     '',
     '## 本轮输入',
     piece5.length ? piece5.join('\n') : '（无具体输入，请主动发起这一段电台）',
