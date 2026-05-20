@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { paths } = require('./paths');
 const state = require('./state');
+const memory = require('./memory');
 const weather = require('./integrations/weather');
 const feishu = require('./integrations/feishu');
 
@@ -57,11 +58,26 @@ async function pieceEnvironment() {
   return lines.join('\n');
 }
 
-// 片 4：已检索记忆（近期对话 + 播放记录）
+// 片 4：已检索记忆（长期记忆 + 近期对话 + 播放记录）
 function pieceMemory() {
+  const mem = memory.all();
   const msgs = state.recentMessages(12);
   const plays = state.recentPlays(8);
   const lines = [];
+
+  if (mem.length) {
+    const groups = { fact: [], preference: [], event: [], feedback: [] };
+    for (const e of mem) {
+      if (!groups[e.type]) groups[e.type] = [];
+      groups[e.type].push(e);
+    }
+    lines.push('关于这位听众（跨会话累积的长期记忆）：');
+    const labels = { fact: '事实', preference: '偏好', event: '近期', feedback: '反馈' };
+    for (const t of ['fact', 'preference', 'event', 'feedback']) {
+      for (const e of groups[t]) lines.push(`  [${labels[t]}] ${e.content}`);
+    }
+  }
+
   if (msgs.length) {
     lines.push('最近对话：');
     for (const m of msgs) {
