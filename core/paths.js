@@ -26,6 +26,7 @@ const paths = {
   renderer: path.join(projectRoot, 'renderer'),
   env: path.join(writableRoot, '.env'),
   stateFile: path.join(writableRoot, 'data', 'state.json'),
+  memoryFile: path.join(writableRoot, 'data', 'memory.json'),
   ncmCookieFile: path.join(writableRoot, 'data', 'ncm-cookie.json'),
 };
 
