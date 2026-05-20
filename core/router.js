@@ -9,6 +9,7 @@ const ncm = require('./integrations/ncm');
 const tts = require('./tts');
 const player = require('./player');
 const state = require('./state');
+const memory = require('./memory');
 const { log } = require('./util');
 
 // 意图识别
@@ -73,6 +74,11 @@ async function djFlow({ text = '', trigger = 'chat' } = {}) {
   ]);
   const tracks = resolved.filter(Boolean).map((tr) => ({ ...tr, reason: dj.reason }));
   if (tracks.length) player.enqueue(tracks);
+
+  if (dj.remember && dj.remember.length) {
+    const written = memory.addMany(dj.remember, trigger);
+    if (written.length) log('router', `记忆新增 ${written.length} 条`);
+  }
 
   const meta = {
     audio: voice.audio,
