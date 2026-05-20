@@ -21,6 +21,7 @@ function extractDjJson(text) {
 
 function normalize(obj, source) {
   const play = Array.isArray(obj && obj.play) ? obj.play : [];
+  const remember = Array.isArray(obj && obj.remember) ? obj.remember : [];
   return {
     say: (obj && obj.say) || '……',
     play: play
@@ -32,6 +33,14 @@ function normalize(obj, source) {
       .filter((p) => p.name),
     reason: (obj && obj.reason) || '',
     segue: (obj && obj.segue) || '',
+    remember: remember
+      .map((r) => ({
+        type: (r && r.type) || '',
+        content: (r && r.content) || '',
+        expires_in_days:
+          r && r.expires_in_days != null ? Number(r.expires_in_days) : null,
+      }))
+      .filter((r) => r.type && r.content),
     source,
   };
 }
