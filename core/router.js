@@ -98,51 +98,142 @@ async function musicFlow(query) {
   }
 }
 
-// 自然语言 / 调度：走完整 6 片上下文 + 大脑。
+// 自然语言 / 调度：走完整 6 片上下文 + 大脑 + Set 编排。
 async function djFlow({ text = '', trigger = 'chat' } = {}) {
   try {
+    if (trigger === 'chat' && text) state.markUserInput();
+
     const ctx = await context.build({ trigger, userInput: text });
     const dj = await deepseek.orchestrate(ctx, { userInput: text });
 
-    // 曲目解析（并行）与 TTS 合成相互独立，一并发起
-    const [resolved, voice] = await Promise.all([
+    // 闲聊：tracks 为空时只播 intro 台词（如果有），不入队
+    if (!dj.tracks || dj.tracks.length === 0) {
+      const voice = dj.intro ? await tts.speak(dj.intro) : { audio: null, hash: null };
+      if (dj.remember && dj.remember.length) {
+        const written = memory.addMany(dj.remember, trigger);
+        if (written && written.length) log('router', `记忆新增 ${written.length} 条`);
+      }
+      const msg = state.addMessage('claudio', dj.intro || '……', {
+        audio: voice.audio,
+        hash: voice.hash,
+        source: dj.source,
+      });
+      return {
+        kind: 'dj',
+        say: dj.intro,
+        audio: voice.audio,
+        hash: voice.hash,
+        reason: dj.reason,
+        segue: dj.segue,
+        source: dj.source,
+        messageId: msg.id,
+        tracks: [],
+        snapshot: player.snapshot(),
+      };
+    }
+
+    // 有 tracks：并行 ncm.resolve + tts.speakBatch（intro + transitions + outro）
+    const ttsTexts = [
+      dj.intro,
+      ...dj.tracks.slice(1).map((t) => t.transition || ''),
+      dj.outro || '',
+    ];
+    const [resolved, voices] = await Promise.all([
       Promise.all(
-        (dj.play || []).map((p) =>
+        dj.tracks.map((p) =>
           ncm.resolve(p.name, p.artist).catch((e) => {
             log('router', `解析曲目失败 ${p.name}：${e.message}`);
             return null;
           })
         )
       ),
-      tts.speak(dj.say),
+      tts.speakBatch(ttsTexts),
     ]);
-    
-    const tracks = resolved.filter(Boolean).map((tr) => ({ ...tr, reason: dj.reason }));
-    if (tracks.length) player.enqueue(tracks);
 
+    // voices 顺序：[intro, transition[1], transition[2], ..., outro]
+    const introVoice = voices[0] || { audio: null, hash: null };
+    const transitionVoices = voices.slice(1, voices.length - 1);
+    const outroVoice = voices[voices.length - 1] || { audio: null, hash: null };
+
+    // 组装 queue items：speech 挂 track
+    const items = [];
+    for (let i = 0; i < dj.tracks.length; i++) {
+      const tr = resolved[i];
+      if (!tr) continue;
+      let before_speak = null;
+      if (i === 0 && dj.intro) {
+        if (introVoice && introVoice.audio) {
+          before_speak = { audio: introVoice.audio, hash: introVoice.hash, text: dj.intro };
+        } else {
+          before_speak = { audio: null, hash: null, text: dj.intro };
+        }
+      } else if (i > 0) {
+        const tv = transitionVoices[i - 1];
+        const text = dj.tracks[i].transition || '';
+        if (text && tv && tv.audio) {
+          before_speak = { audio: tv.audio, hash: tv.hash, text };
+        } else if (text) {
+          before_speak = { audio: null, hash: null, text };
+        }
+      }
+      let after_speak = null;
+      if (i === dj.tracks.length - 1 && dj.outro) {
+        if (outroVoice && outroVoice.audio) {
+          after_speak = { audio: outroVoice.audio, hash: outroVoice.hash, text: dj.outro };
+        } else {
+          after_speak = { audio: null, hash: null, text: dj.outro };
+        }
+      }
+      items.push({
+        ...tr,
+        reason: dj.reason,
+        before_speak,
+        after_speak,
+      });
+    }
+
+    if (items.length) player.enqueue(items);
+
+    // 写长期记忆
     if (dj.remember && dj.remember.length) {
       const written = memory.addMany(dj.remember, trigger);
       if (written && written.length) log('router', `记忆新增 ${written.length} 条`);
     }
 
+    // currentSet 决策：auto-continue + 未收尾 → 续编（appendSetPlanned）；其他 → 新 set
+    const cur = state.getCurrentSet();
+    const isContinuation =
+      trigger === 'auto-continue' &&
+      cur.started_at &&
+      !cur.outro_played &&
+      !cur.ended_at;
+    if (isContinuation) {
+      state.appendSetPlanned(items.length);
+    } else {
+      state.startSet({ theme: dj.theme || '', planned: items.length });
+    }
+
     const meta = {
-      audio: voice.audio,
-      hash: voice.hash,
+      audio: introVoice.audio || null,
+      hash: introVoice.hash || null,
       source: dj.source,
       reason: dj.reason,
       segue: dj.segue,
-      tracks: tracks.map((t) => ({ name: t.name, artist: t.artist })),
+      theme: dj.theme,
+      outro: dj.outro,
+      tracks: items.map((t) => ({ name: t.name, artist: t.artist })),
     };
-    const msg = state.addMessage('claudio', dj.say, meta);
-    
+    const msg = state.addMessage('claudio', dj.intro || '……', meta);
     return {
       kind: 'dj',
-      say: dj.say,
-      audio: voice.audio,
-      hash: voice.hash,
+      say: dj.intro,
+      audio: introVoice.audio || null,
+      hash: introVoice.hash || null,
       reason: dj.reason,
       segue: dj.segue,
       source: dj.source,
+      theme: dj.theme,
+      outro: dj.outro,
       messageId: msg.id,
       tracks: meta.tracks,
       snapshot: player.snapshot(),
