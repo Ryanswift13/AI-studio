@@ -248,14 +248,42 @@ function setPlayIcon(playing) {
   $('btnPlay').innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
 }
 
+// 台词打断当前音乐时，暂存进度——台词播完后从断点接着，不要从头放。
+let savedMusicTime = 0;
+let savedMusicTrack = null;
 function playSpeak(url) {
   if (!url) return false;
+  if (mode === 'music' && currentTrack && currentTrack.url && !audio.paused) {
+    savedMusicTrack = currentTrack;
+    savedMusicTime = audio.currentTime || 0;
+  }
   mode = 'speaking';
   setNowState('SPEAKING');
   setEq(false);
   audio.src = url;
   audio.play().catch(() => {});
   return true;
+}
+// 从指定位置接着播某曲（台词结束后恢复用）
+function resumeMusic(track, atTime) {
+  if (!track || !track.url) return;
+  currentTrack = track;
+  mode = 'music';
+  warmed = null;
+  $('nowTitle').textContent = `${track.name}${
+    track.artist ? ' · ' + track.artist : ''
+  }`;
+  audio.src = track.url;
+  const onMeta = () => {
+    try {
+      audio.currentTime = atTime;
+    } catch (e) {
+      /* 某些占位音 / 流可能 seek 不了，忽略 */
+    }
+    audio.play().catch(() => {});
+    audio.removeEventListener('loadedmetadata', onMeta);
+  };
+  audio.addEventListener('loadedmetadata', onMeta);
 }
 function playMusic(track) {
   currentTrack = track || currentTrack;
@@ -290,7 +318,16 @@ audio.addEventListener('pause', () => {
 });
 audio.addEventListener('ended', async () => {
   if (mode === 'speaking') {
-    playMusic(currentTrack);
+    // 优先恢复台词打断前的音乐进度；没有暂存则按当前曲目从头放
+    if (savedMusicTrack && savedMusicTime > 0) {
+      const t = savedMusicTime;
+      const tr = savedMusicTrack;
+      savedMusicTrack = null;
+      savedMusicTime = 0;
+      resumeMusic(tr, t);
+    } else {
+      playMusic(currentTrack);
+    }
   } else if (mode === 'music') {
     // 到队尾时主进程会自动续编（DJ 大脑 + TTS）——约 3-8 秒，先告诉用户在准备
     setNowState('NEXT…');

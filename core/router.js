@@ -34,17 +34,18 @@ function classify(raw) {
     return { kind: 'command', action: 'volume', value: Math.max(0, Math.min(100, +volMatch[1])) };
   }
   
-  // 3. 匹配明确点歌
-  const musicMatch = /^(?:播放|放一?首|来一?首|点歌|点一?首|搜索?|search)\s*[:：]?\s*(.+)$/i.exec(t);
+  // 3. 匹配明确点歌（含"我想听 X / 想听 X / 听一下 X"等口语化前缀）
+  const musicMatch = /^(?:我想听|想听|听一下|放一下|放点|播放|放一?首|来一?首|点歌|点一?首|搜索?|search)\s*[:：]?\s*(.+)$/i.exec(t);
   if (musicMatch && musicMatch[1].trim()) {
     const query = musicMatch[1].trim();
-    
-    // 【模糊词拦截器】拦截宽泛表达，交由大模型进行语义理解
-    const fuzzyKeywords = /^(歌|歌曲|音乐|我喜欢的.*|我爱的.*|好听的.*|随便.*|日推|推荐.*)$/i;
-    if (fuzzyKeywords.test(query)) {
+
+    // 【模糊词拦截器】query 含抽象意图词（而非具体歌名/艺人）时交大模型语义理解
+    const fuzzyKeywords =
+      /(我喜欢|我爱|好听|随便|日推|推荐|慢歌|快歌|新歌|老歌|伤感|难过|开心|emo|轻松|放松|什么歌|哪首|某首|一首)/i;
+    if (fuzzyKeywords.test(query) || /^(歌|歌曲|音乐)$/.test(query)) {
       return { kind: 'nl' };
     }
-    
+
     return { kind: 'music', query };
   }
   
