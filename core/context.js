@@ -58,13 +58,25 @@ async function pieceEnvironment() {
   return lines.join('\n');
 }
 
-// 片 4：已检索记忆（长期记忆 + 今日已播 + 近期对话 + 最近 8 条播放）
+// 片 4：已检索记忆（当前 Set + 长期记忆 + 今日已播 + 近期对话 + 最近 8 条播放）
 function pieceMemory() {
   const mem = memory.all();
   const today = state.playsToday();
   const msgs = state.recentMessages(12);
   const plays = state.recentPlays(8);
+  const currentSet = state.getCurrentSet();
   const lines = [];
+
+  if (
+    currentSet.started_at &&
+    (!currentSet.ended_at || Date.now() - currentSet.ended_at < 60 * 60 * 1000)
+  ) {
+    const setAge = Math.floor((Date.now() - currentSet.started_at) / 60000);
+    lines.push(
+      `当前节目段：theme="${currentSet.theme}", 已播 ${currentSet.tracks_played}/${currentSet.tracks_planned}, ` +
+        `outro=${currentSet.outro_played ? '已说' : '未到'}, 段龄 ${setAge} 分钟。`
+    );
+  }
 
   if (mem.length) {
     const groups = { fact: [], preference: [], event: [], feedback: [] };
@@ -74,7 +86,8 @@ function pieceMemory() {
     }
     lines.push('关于这位听众（跨会话累积的长期记忆）：');
     const labels = { fact: '事实', preference: '偏好', event: '近期', feedback: '反馈' };
-    for (const t of ['fact', 'preference', 'event', 'feedback']) {
+    // feedback 优先展示——参考听众的明确好恶选曲
+    for (const t of ['feedback', 'preference', 'fact', 'event']) {
       for (const e of groups[t]) lines.push(`  [${labels[t]}] ${e.content}`);
     }
   }
@@ -103,10 +116,15 @@ function pieceTrace(trigger) {
   const map = {
     chat: '由听众主动发起对话触发。',
     startup:
-      'Claudio 刚刚启动——给听众开个场。组一段开场电台（通常 4-6 首比较舒服，但你自己判断），注意此刻时段、天气、最近记忆和长期偏好的连贯，台词比平时多一点暖意。',
+      'Claudio 刚刚启动——给听众开个场。组一段开场电台（通常 4-6 首），注意此刻时段、天气、最近记忆和长期偏好的连贯，台词比平时多一点暖意。若 currentSet 还没收（outro_played=false 且段龄 < 6 小时），可以延续 theme；否则起新 theme。',
     'scheduler:calendar': '由日历 hook 触发——临近日程，做相应铺垫。',
     'auto-continue':
-      '队列快播完了（**用户还在听上一段**，这是后台预编下一段，不要打扰），接着挑几首继续——和当前这段语气连贯，避免突兀切情绪。尽量从听众 favorites_all 里选，"今日已播过"列表里的坚决不要。',
+      '队列快播完了（**用户还在听上一段**，这是后台预编下一段，不要打扰）：\n' +
+      '  · 若 currentSet.outro_played=false → **续编当前 set**：保持 theme，append tracks，不重写 intro，不写 outro（让你判断到第几首该收）\n' +
+      '  · 若 currentSet.outro_played=true → **开新 set**：theme 可继承也可切，按音乐逻辑判断\n' +
+      '  · "今日已播过" 列表里的坚决不要再选。',
+    'idle-chime':
+      '听众有 1 分多没说话了，音乐也停了。主动接一段——**不要打扰式问候**（"喂还在吗"那种禁），直接开个新 set 接龙；台词可以引用上一段主题做收尾，再切到新主题。',
   };
   return map[trigger] || `触发来源：${trigger}`;
 }
