@@ -7,6 +7,15 @@ const { paths, ensureDirs } = require('./paths');
 ensureDirs();
 const FILE = paths.stateFile;
 
+const EMPTY_SET = {
+  theme: '',
+  started_at: 0,
+  tracks_planned: 0,
+  tracks_played: 0,
+  outro_played: false,
+  ended_at: null,
+};
+
 function load() {
   try {
     const j = JSON.parse(fs.readFileSync(FILE, 'utf8'));
@@ -16,9 +25,15 @@ function load() {
       plays: j.plays || [],
       plan: j.plan || {},
       prefs: j.prefs || {},
+      currentSet: j.currentSet || { ...EMPTY_SET },
+      lastUserInputAt: j.lastUserInputAt || 0,
     };
   } catch {
-    return { seq: 0, messages: [], plays: [], plan: {}, prefs: {} };
+    return {
+      seq: 0, messages: [], plays: [], plan: {}, prefs: {},
+      currentSet: { ...EMPTY_SET },
+      lastUserInputAt: 0,
+    };
   }
 }
 
@@ -116,6 +131,53 @@ function setPref(key, value) {
   persist();
 }
 
+// ── currentSet ────────────────────────────────────────
+// Set 抽象：theme + 总曲数 + 已播数 + outro 标志 + 收尾时间，跨重启可恢复。
+function startSet({ theme = '', planned = 0 } = {}) {
+  store.currentSet = {
+    theme: String(theme || ''),
+    started_at: Date.now(),
+    tracks_planned: Number(planned) || 0,
+    tracks_played: 0,
+    outro_played: false,
+    ended_at: null,
+  };
+  persist();
+  return store.currentSet;
+}
+function appendSetPlanned(n) {
+  if (!store.currentSet || !store.currentSet.started_at) return;
+  store.currentSet.tracks_planned = (store.currentSet.tracks_planned || 0) + Number(n || 0);
+  persist();
+}
+function bumpSetTrack() {
+  if (!store.currentSet || !store.currentSet.started_at) return;
+  store.currentSet.tracks_played = (store.currentSet.tracks_played || 0) + 1;
+  persist();
+}
+function markOutroPlayed() {
+  if (!store.currentSet) return;
+  store.currentSet.outro_played = true;
+  persist();
+}
+function endSet() {
+  if (!store.currentSet) return;
+  store.currentSet.ended_at = Date.now();
+  persist();
+}
+function getCurrentSet() {
+  return store.currentSet || { ...EMPTY_SET };
+}
+
+// ── lastUserInputAt ────────────────────────────────────
+function markUserInput() {
+  store.lastUserInputAt = Date.now();
+  persist();
+}
+function lastUserInput() {
+  return store.lastUserInputAt || 0;
+}
+
 module.exports = {
   addMessage,
   recentMessages,
@@ -128,4 +190,12 @@ module.exports = {
   getPlan,
   getPref,
   setPref,
+  startSet,
+  appendSetPlanned,
+  bumpSetTrack,
+  markOutroPlayed,
+  endSet,
+  getCurrentSet,
+  markUserInput,
+  lastUserInput,
 };
