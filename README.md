@@ -1,17 +1,27 @@
 # Claudio — 个人 AI 电台
 
-> 读懂听歌习惯 → 规划声音 → 像 DJ 那样播报
+> 读懂听歌习惯 → 编节目段 → 像深夜电台 DJ 那样开场、过渡、收尾
 
-Claudio 是一个 Electron 桌面应用：以 DeepSeek 为大脑，结合你的品味语料、天气与日程，
-像一位私人电台 DJ 那样为你选曲、写台词、合成语音并播报。
+Claudio 是一个 Electron 桌面应用：以 DeepSeek 为大脑，结合你的品味语料、天气、日程、长期记忆，
+像一位私人电台 DJ 那样为你**编节目段**——挑歌、写开场、写曲间过渡、合成语音播报。
+
+## v1.1 "DJ 感" 新增
+
+- **节目段（Set）抽象**：每次编排是 `{theme, intro, tracks[+transitions], outro}`，4-6 首歌组一段，曲间有过渡台词
+- **跨会话 Set 延续**：6 小时内未收尾的 set，下次启动可被大脑接着续编
+- **主动引领**：1 分钟无输入 + 音乐停 + set 已收尾 → DJ 自动启新 set（idle-chime）
+- **听众反馈**：点心形按钮 → 当前曲目写入长期 feedback 记忆；可在 chat 框输入 `/记一下 ...` 任意写入
+- **音乐知识库**：`user/music-context.md` 记录用户立场（艺人雷区、同名歌消歧、事件背景）
+- **同名歌强匹配**：artist 必填，避免 Lana 的 White Dress 被解析成 Kanye 同名歌这种事故
+- 一系列基础体验修复：单曲循环、点歌立即播、台词打断不重置进度、(Live)/(翻唱)/(Remix) 自动过滤
 
 ## 架构
 
-四层结构（见 `Structure.jpg`）：
+四层结构：
 
-1. **外部上下文** — 用户语料（`user/*.md`）、DeepSeek、网易云音乐 API、声音/天气/日程 I/O
-2. **本地大脑** — `core/`：意图分流、提示词组装、大脑适配器、节律调度、声音管线、状态库
-3. **运行时聚合** — 每次触发把 6 片上下文粘成 prompt，模型输出 `{say, play, reason, segue}`
+1. **外部上下文** — 用户语料（`user/*.md` + `playlists.json`）、DeepSeek、网易云音乐 API、Edge TTS、open-meteo 天气、ICS 日历
+2. **本地大脑** — `core/`：意图分流（含 `/记一下` / `我想听 X` / 模糊词降级）、提示词组装、Set 编排、TTS 批量合成、idle-watcher 主动引领
+3. **运行时聚合** — 每次触发把 6 片上下文粘成 prompt，模型输出 Set JSON
 4. **交互表层** — Electron 窗口（Player / Profile / Settings 三视图），渲染层经 IPC 与主进程通信
 
 ```
@@ -50,12 +60,18 @@ Claudio 启动时会自动拉起本地 NeteaseCloudMusicApi 服务（`NCM_AUTOST
 
 ## 用户语料
 
-`user/` 目录下的文件定义「Claudio 真正属于你」的部分，可随时编辑：
+`user/` 目录下的文件定义「Claudio 真正属于你」的部分，可随时编辑（改完重启生效，首次读取后缓存）：
 
 - `taste.md` — 你的音乐品味
 - `routines.md` — 作息与场景节律
-- `playlists.json` — 常听歌单
+- `playlists.json` — 场景化歌单 + favorites_all（绝对偏好库）
 - `mood-rules.md` — 情绪 → 选曲规则
+- `music-context.md` — 音乐世界观：艺人雷区 / 同名歌消歧 / 事件背景 / DJ 选曲自检清单
+- `data/memory.json` — DJ 自动积累的长期记忆（事实/事件/反馈/偏好），可手改
+
+## 工具
+
+- `npm run import-favorites` — 一键把网易云"我喜欢的音乐"歌单合并到 `user/playlists.json` 的 favorites_all（去重）
 
 ## 打包
 
