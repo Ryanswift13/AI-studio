@@ -71,7 +71,8 @@ async function musicFlow(query) {
       return { kind: 'music', say: fallbackSay, error: 'not_found' };
     }
 
-    player.enqueue([{ ...track, reason: `点播：${query}` }]);
+    // 明确点歌：立即播，打断当前
+    player.enqueue([{ ...track, reason: `点播：${query}` }], { advance: true });
     const say = `好，这就为你放《${track.name}》${track.artist ? ' · ' + track.artist : ''}。`;
     const voice = await tts.speak(say);
     const msg = state.addMessage('claudio', say, { audio: voice.audio, hash: voice.hash });

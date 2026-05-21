@@ -35,8 +35,20 @@ function announce() {
   }
 }
 
-// 追加曲目到队列。replace=true 时整体替换。
-function enqueue(tracks, replace = false) {
+// 追加曲目到队列。
+// opts 兼容历史的 boolean（true = replace）和对象形式 { replace?, advance? }：
+//   - replace: 整体替换，从第 0 首开始播
+//   - advance: 追加后立即跳到刚加进来的第一首（用于"明确点歌"语义）
+//   - 都不传 = 默认 append，不打断当前正在播的曲目
+function enqueue(tracks, opts = false) {
+  let replace = false;
+  let advance = false;
+  if (typeof opts === 'boolean') replace = opts;
+  else if (opts && typeof opts === 'object') {
+    replace = !!opts.replace;
+    advance = !!opts.advance;
+  }
+
   if (!Array.isArray(tracks) || tracks.length === 0) {
     if (replace) {
       queue = [];
@@ -45,7 +57,6 @@ function enqueue(tracks, replace = false) {
     }
     return snapshot();
   }
-  // 只有当前曲目真切换时才 announce，否则纯追加不应打断正在播的那首
   let currentChanged = false;
   if (replace) {
     queue = [...tracks];
@@ -53,9 +64,14 @@ function enqueue(tracks, replace = false) {
     currentChanged = true;
   } else {
     const wasEmpty = index < 0;
+    const insertAt = queue.length;
     queue.push(...tracks);
     if (wasEmpty) {
       index = 0;
+      currentChanged = true;
+    } else if (advance) {
+      // 明确点歌：立即跳到刚追加的第一首，打断当前
+      index = insertAt;
       currentChanged = true;
     }
   }
