@@ -284,18 +284,39 @@ async function resolveHit(hit) {
   return { ...hit, url };
 }
 
+// 歌手强匹配：hit 的 artist 字符串里至少包含 wanted 的一个 ≥2 字符 token。
+// 防止"White Dress (Lana Del Rey)"被解析成同名的 Kanye West 版本这类事故。
+function artistMatch(hitArtist, wanted) {
+  const norm = (s) => String(s || '').toLowerCase().replace(/[\s.,&/、·]/g, '');
+  const h = norm(hitArtist);
+  const tokens = String(wanted || '')
+    .toLowerCase()
+    .split(/[\s.,&/、·]+/)
+    .filter((t) => t.length >= 2);
+  if (!tokens.length) return true; // 没指定 wanted 则不约束
+  return tokens.some((t) => h.includes(t));
+}
+
 // 把「歌名 + 歌手」解析为可播放曲目（含直链）。
 // top 命中常因版权/VIP 仅返回试听，逐个候选尝试，全部受限才回落占位音频。
+// 若指定了 artist：hit 的歌手不匹配则跳过，避免错版本（如同名 cover/不同艺人）。
 async function resolve(name, artist = '') {
   const query = artist ? `${name} ${artist}` : name;
   const hits = await search(query, 6);
   if (!hits.length || hits[0].source === 'mock') return mockTrack(name, artist);
-  for (const hit of hits.slice(0, 3)) {
+  const candidates = artist
+    ? hits.filter((h) => artistMatch(h.artist, artist))
+    : hits;
+  if (artist && candidates.length === 0) {
+    warn('ncm', `「${name}」找不到歌手为「${artist}」的版本，放弃避免错版`);
+    return null; // djFlow 会过滤掉 null，避免放出错版本
+  }
+  for (const hit of candidates.slice(0, 3)) {
     const url = await songUrl(hit.id);
     if (url) return { ...hit, url };
   }
   log('ncm', `「${name}」候选均无完整直链，使用占位音频`);
-  return { ...hits[0], url: toneWav(220, 12), source: 'ncm-nourl' };
+  return { ...candidates[0], url: toneWav(220, 12), source: 'ncm-nourl' };
 }
 
 async function status() {
