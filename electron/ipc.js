@@ -37,10 +37,25 @@ async function tasteProfile() {
 }
 
 function register(getWindow) {
+  // 后台异步预编下一段电台——队列剩 1 首没播时触发，让续编与播放并行而非串行。
+  // prefetching 防重入；同一段队列内只 prefetch 一次。
+  let prefetching = false;
+  function maybePrefetch(snap) {
+    if (prefetching) return;
+    if (!snap || snap.count <= 0) return;
+    const remaining = snap.count - 1 - snap.index; // 当前曲目之后还有几首
+    if (remaining > 1) return; // 至少剩 1 首才预编（含正在播的那首 = 2 时不编）
+    prefetching = true;
+    router
+      .handle({ text: '', trigger: 'auto-continue' })
+      .catch((e) => console.warn('[ipc] prefetch 失败:', e.message))
+      .finally(() => {
+        prefetching = false;
+      });
+  }
+
   ipcMain.handle('chat', async (_e, text) => router.handle({ text, trigger: 'chat' }));
   ipcMain.handle('now', () => player.now());
-  // 到队尾时不再原地不动（避免渲染层重复播放当前曲 = 单曲循环），
-  // 而是 await 一次 djFlow 自动续编，然后真前进到刚加进来的第一首。
   ipcMain.handle('next', async () => {
     const before = player.snapshot();
     const after = player.next();
@@ -48,7 +63,12 @@ function register(getWindow) {
       before.index === after.index &&
       before.count === after.count &&
       after.count > 0;
-    if (!atEnd) return after;
+    if (!atEnd) {
+      // 成功推进——顺手看看是否需要后台预编
+      maybePrefetch(after);
+      return after;
+    }
+    // Fallback：prefetch 没赶上（DeepSeek 慢、网络差），到队尾才编——同步等
     try {
       await router.handle({ text: '', trigger: 'auto-continue' });
     } catch (e) {
