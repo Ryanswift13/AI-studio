@@ -104,6 +104,12 @@ async function pollNcmQr() {
 }
 
 $('loginBtn').onclick = () => {
+  // 已登录态下不直接弹二维码，先确认是否要切换账号
+  const btn = $('loginBtn');
+  if (btn.classList.contains('logged-in')) {
+    const name = btn.textContent.replace(/^♪\s*/, '').trim() || '当前用户';
+    if (!window.confirm(`${name} 已登录。要重新扫码切换账号吗？`)) return;
+  }
   setNcmModalOpen(true);
   startNcmQr();
 };
