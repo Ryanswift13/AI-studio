@@ -334,6 +334,7 @@ function startTrackPipeline(track) {
 
 audio.addEventListener('play', () => {
   setPlayIcon(true);
+  if (window.claudio && window.claudio.audio) window.claudio.audio.report({ paused: false });
   if (mode === 'music') {
     setNowState('PLAYING');
     setEq(true);
@@ -341,6 +342,7 @@ audio.addEventListener('play', () => {
 });
 audio.addEventListener('pause', () => {
   setPlayIcon(false);
+  if (window.claudio && window.claudio.audio) window.claudio.audio.report({ paused: true });
   if (mode === 'music') {
     setNowState('PAUSED');
     setEq(false);

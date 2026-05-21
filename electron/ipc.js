@@ -12,6 +12,7 @@ const edge = require('../core/integrations/edge-tts');
 const weather = require('../core/integrations/weather');
 const calendar = require('../core/integrations/calendar');
 const upnp = require('../core/integrations/upnp');
+const idleWatcher = require('../core/idle-watcher');
 const { todayStr } = require('../core/util');
 
 // 品味画像 + 各集成可用状态
@@ -99,6 +100,12 @@ function register(getWindow) {
     const win = getWindow();
     if (win && !win.isDestroyed()) win.close();
   });
+
+  // 渲染层上报音频 paused 状态，供 idle-watcher 判断主动引领时机
+  ipcMain.on('audio:state', (_e, payload) => {
+    idleWatcher.setAudioPaused(payload && payload.paused);
+  });
+  idleWatcher.start();
 
   // bus 'stream' 事件 → 当前窗口
   bus.on('stream', (payload) => {

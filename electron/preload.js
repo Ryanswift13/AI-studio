@@ -24,6 +24,11 @@ contextBridge.exposeInMainWorld('claudio', {
   minimize: () => ipcRenderer.send('win:minimize'),
   close: () => ipcRenderer.send('win:close'),
 
+  // 音频状态上报，供 idle-watcher 判断是否触发主动引领
+  audio: {
+    report: (state) => ipcRenderer.send('audio:state', state),
+  },
+
   // stream 推送通道（对应 WS /stream）：now-playing、DJ 播报、调度触发
   onStream: (cb) => {
     const handler = (_e, payload) => cb(payload);
