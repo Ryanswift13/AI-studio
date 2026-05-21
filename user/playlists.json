@@ -1,30 +1,1894 @@
 {
+  "meta": {
+    "source": "Apple Music · Favorite Songs · 共 311 条收藏（按 ISRC 去重后 294 首）",
+    "note": "Ryan 的红心收藏夹——绝对偏好库。下方 playlists 是按场景画像挑出的代表曲；favorites_all 为完整列表，编排时优先从 favorites_all 中挑选，playlists 提供\"此刻该走哪种情绪\"的参照。"
+  },
   "playlists": [
     {
-      "name": "深夜公路",
+      "name": "清晨自习室",
+      "mood": "早晨 / 起势",
+      "tracks": [
+        {
+          "name": "Daylight",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "the 1",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Best Day Of My Life",
+          "artist": "Tom Odell"
+        },
+        {
+          "name": "Galway Girl",
+          "artist": "Ed Sheeran"
+        },
+        {
+          "name": "Azizam",
+          "artist": "Ed Sheeran"
+        },
+        {
+          "name": "晴天",
+          "artist": "周杰伦"
+        },
+        {
+          "name": "稻香",
+          "artist": "周杰伦"
+        },
+        {
+          "name": "Sugar",
+          "artist": "Maroon 5"
+        },
+        {
+          "name": "Counting Stars",
+          "artist": "OneRepublic"
+        },
+        {
+          "name": "Catch My Breath",
+          "artist": "Kelly Clarkson"
+        },
+        {
+          "name": "Try Everything",
+          "artist": "Shakira"
+        },
+        {
+          "name": "golden hour",
+          "artist": "JVKE"
+        }
+      ]
+    },
+    {
+      "name": "午后写代码",
+      "mood": "专注 / 流动",
+      "tracks": [
+        {
+          "name": "White Dress",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "Chemtrails Over the Country Club",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "august",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "cardigan",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "the last great american dynasty",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Spring Into Summer",
+          "artist": "Lizzy McAlpine"
+        },
+        {
+          "name": "Man I Need",
+          "artist": "Olivia Dean"
+        },
+        {
+          "name": "Drive",
+          "artist": "Ed Sheeran"
+        },
+        {
+          "name": "几分之几",
+          "artist": "卢广仲"
+        },
+        {
+          "name": "才二十三",
+          "artist": "方大同"
+        },
+        {
+          "name": "Take Me Hands (feat. Cecile Corbel)",
+          "artist": "DAISHI DANCE"
+        },
+        {
+          "name": "Viva La Vida",
+          "artist": "Coldplay"
+        }
+      ]
+    },
+    {
+      "name": "深夜电台",
       "mood": "深夜 / 放松",
       "tracks": [
-        { "name": "If", "artist": "Bread" },
-        { "name": "Hotel California", "artist": "Eagles" },
-        { "name": "Don't Know Why", "artist": "Norah Jones" }
+        {
+          "name": "exile (feat. Bon Iver)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "marjorie",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "tolerate it",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "champagne problems",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "White Ferrari",
+          "artist": "Frank Ocean"
+        },
+        {
+          "name": "ocean eyes",
+          "artist": "Billie Eilish"
+        },
+        {
+          "name": "Mystery of Love",
+          "artist": "Sufjan Stevens"
+        },
+        {
+          "name": "Salvatore",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "Young and Beautiful",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "富士山下",
+          "artist": "陈奕迅"
+        },
+        {
+          "name": "流沙",
+          "artist": "陶喆"
+        },
+        {
+          "name": "戒烟",
+          "artist": "李荣浩"
+        },
+        {
+          "name": "Who Knows",
+          "artist": "Daniel Caesar"
+        },
+        {
+          "name": "Call Out My Name",
+          "artist": "The Weeknd"
+        },
+        {
+          "name": "Dancing With Your Ghost",
+          "artist": "Sasha Alex Sloan"
+        }
       ]
     },
     {
-      "name": "写代码用",
-      "mood": "专注",
+      "name": "周末高能",
+      "mood": "兴奋 / 派对",
       "tracks": [
-        { "name": "Departure", "artist": "雷光夏" },
-        { "name": "Comptine d'un autre été", "artist": "Yann Tiersen" },
-        { "name": "Waltz for Debby", "artist": "Bill Evans" }
+        {
+          "name": "Believer",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Thunder",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Radioactive",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Whatever It Takes",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Cruel Summer",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "...Ready For It?",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "APT.",
+          "artist": "ROSÉ & Bruno Mars"
+        },
+        {
+          "name": "Uptown Funk (feat. Bruno Mars)",
+          "artist": "Mark Ronson"
+        },
+        {
+          "name": "Bad Romance",
+          "artist": "Lady Gaga"
+        },
+        {
+          "name": "Abracadabra",
+          "artist": "Lady Gaga"
+        },
+        {
+          "name": "Pink Pony Club",
+          "artist": "Chappell Roan"
+        },
+        {
+          "name": "Shape of You",
+          "artist": "Ed Sheeran"
+        },
+        {
+          "name": "Despacito (Versión Urbana/Sky)",
+          "artist": "Luis Fonsi & Daddy Yankee"
+        },
+        {
+          "name": "Manchild",
+          "artist": "Sabrina Carpenter"
+        }
       ]
     },
     {
-      "name": "明亮的早晨",
-      "mood": "早晨",
+      "name": "千禧华语怀旧",
+      "mood": "怀旧 / 千禧",
       "tracks": [
-        { "name": "旅行的意义", "artist": "陈绮贞" },
-        { "name": "Wake Me Up When September Ends", "artist": "Green Day" }
+        {
+          "name": "江南",
+          "artist": "林俊杰"
+        },
+        {
+          "name": "背对背拥抱",
+          "artist": "林俊杰"
+        },
+        {
+          "name": "你不知道的事",
+          "artist": "王力宏"
+        },
+        {
+          "name": "爱错",
+          "artist": "王力宏"
+        },
+        {
+          "name": "落叶归根",
+          "artist": "王力宏"
+        },
+        {
+          "name": "二十二",
+          "artist": "陶喆"
+        },
+        {
+          "name": "天天",
+          "artist": "陶喆"
+        },
+        {
+          "name": "普通朋友",
+          "artist": "陶喆"
+        },
+        {
+          "name": "爱我还是他",
+          "artist": "陶喆"
+        },
+        {
+          "name": "十年",
+          "artist": "陈奕迅"
+        },
+        {
+          "name": "富士山下",
+          "artist": "陈奕迅"
+        },
+        {
+          "name": "孤独患者",
+          "artist": "陈奕迅"
+        },
+        {
+          "name": "麦恩莉",
+          "artist": "方大同"
+        },
+        {
+          "name": "特别的人",
+          "artist": "方大同"
+        },
+        {
+          "name": "遇见",
+          "artist": "孙燕姿"
+        },
+        {
+          "name": "夜曲",
+          "artist": "周杰伦"
+        },
+        {
+          "name": "明明就",
+          "artist": "周杰伦"
+        },
+        {
+          "name": "搁浅",
+          "artist": "周杰伦"
+        }
       ]
+    },
+    {
+      "name": "情绪低谷",
+      "mood": "emo / 自我对话",
+      "tracks": [
+        {
+          "name": "I Can Do It With a Broken Heart",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "The Smallest Man Who Ever Lived",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "You're On Your Own, Kid",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Guilty as Sin?",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "loml",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "演员",
+          "artist": "薛之谦"
+        },
+        {
+          "name": "丑八怪",
+          "artist": "薛之谦"
+        },
+        {
+          "name": "With You",
+          "artist": "Dean Lewis"
+        },
+        {
+          "name": "不只是场梦",
+          "artist": "李玖哲"
+        },
+        {
+          "name": "最后一页",
+          "artist": "江语晨"
+        },
+        {
+          "name": "到此为止",
+          "artist": "徐佳莹"
+        },
+        {
+          "name": "Someone Like You",
+          "artist": "Adele"
+        },
+        {
+          "name": "Hello",
+          "artist": "Adele"
+        },
+        {
+          "name": "Talking to the Moon",
+          "artist": "Bruno Mars"
+        },
+        {
+          "name": "想你的夜",
+          "artist": "关喆"
+        }
+      ]
+    },
+    {
+      "name": "雨天电台",
+      "mood": "雨天 / 抒情",
+      "tracks": [
+        {
+          "name": "就让这大雨全都落下",
+          "artist": "容祖儿"
+        },
+        {
+          "name": "雨爱",
+          "artist": "杨丞琳"
+        },
+        {
+          "name": "A Thousand Years",
+          "artist": "Christina Perri"
+        },
+        {
+          "name": "Young and Beautiful",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "Video Games (Remastered)",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "泪桥",
+          "artist": "伍佰 & China Blue"
+        },
+        {
+          "name": "Falling",
+          "artist": "Harry Styles"
+        },
+        {
+          "name": "As It Was",
+          "artist": "Harry Styles"
+        },
+        {
+          "name": "You're Beautiful",
+          "artist": "James Blunt"
+        },
+        {
+          "name": "How Long",
+          "artist": "Charlie Puth"
+        },
+        {
+          "name": "We Don't Talk Anymore (feat. Selena Gomez)",
+          "artist": "Charlie Puth"
+        },
+        {
+          "name": "7 Years",
+          "artist": "Conor Maynard"
+        }
+      ]
+    },
+    {
+      "name": "Taylor Swift 主题",
+      "mood": "TS 专题（整张式播放）",
+      "tracks": [
+        {
+          "name": "Anti-Hero",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Lavender Haze",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Midnight Rain",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Maroon",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Mastermind",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "cardigan",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "august",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "willow",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "champagne problems",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "exile (feat. Bon Iver)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Cruel Summer",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Cornelia Street",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Daylight",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Love Story (Taylor’s Version)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Wildest Dreams (Taylor's Version)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Style (Taylor's Version)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Enchanted (Taylor's Version)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "All Too Well (10 Minute Version) [Taylor's Version] [From The Vault]",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "Fortnight (feat. Post Malone)",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "The Fate of Ophelia",
+          "artist": "Taylor Swift"
+        }
+      ]
+    },
+    {
+      "name": "Imagine Dragons 战吼",
+      "mood": "高能 / 升起",
+      "tracks": [
+        {
+          "name": "Believer",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Thunder",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Radioactive",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Demons",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "It's Time",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Whatever It Takes",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Bones",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Enemy (From the series Arcane League of Legends)",
+          "artist": "Imagine Dragons, Arcane & League of Legends Music"
+        },
+        {
+          "name": "Natural",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Sharks",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Follow You",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Eyes Closed",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Wake Up",
+          "artist": "Imagine Dragons"
+        },
+        {
+          "name": "Take Me to the Beach",
+          "artist": "Imagine Dragons"
+        }
+      ]
+    },
+    {
+      "name": "圣诞夜",
+      "mood": "节日 / 圣诞",
+      "tracks": [
+        {
+          "name": "Last Christmas (Single Version)",
+          "artist": "Wham!"
+        },
+        {
+          "name": "Last Christmas",
+          "artist": "Taylor Swift"
+        },
+        {
+          "name": "All I Want for Christmas Is You",
+          "artist": "Mariah Carey"
+        },
+        {
+          "name": "圣诞结",
+          "artist": "陈奕迅"
+        },
+        {
+          "name": "Lonely Christmas",
+          "artist": "陈奕迅"
+        },
+        {
+          "name": "That Was the Worst Christmas Ever!",
+          "artist": "Sufjan Stevens"
+        }
+      ]
+    },
+    {
+      "name": "深夜驾驶/Synth",
+      "mood": "Synth-pop / 夜路",
+      "tracks": [
+        {
+          "name": "Starboy (feat. Daft Punk)",
+          "artist": "The Weeknd"
+        },
+        {
+          "name": "After Hours",
+          "artist": "The Weeknd"
+        },
+        {
+          "name": "Die For You (Remix)",
+          "artist": "The Weeknd & Ariana Grande"
+        },
+        {
+          "name": "Timeless",
+          "artist": "The Weeknd & Playboi Carti"
+        },
+        {
+          "name": "Dancing In The Flames",
+          "artist": "The Weeknd"
+        },
+        {
+          "name": "Cry For Me",
+          "artist": "The Weeknd"
+        },
+        {
+          "name": "The Nights",
+          "artist": "Avicii"
+        },
+        {
+          "name": "Faded",
+          "artist": "Alan Walker"
+        },
+        {
+          "name": "Dusk Till Dawn (feat. Sia)",
+          "artist": "ZAYN"
+        },
+        {
+          "name": "Closer (feat. Halsey)",
+          "artist": "The Chainsmokers"
+        },
+        {
+          "name": "Something Just Like This",
+          "artist": "The Chainsmokers & Coldplay"
+        }
+      ]
+    },
+    {
+      "name": "OST 与电影感",
+      "mood": "电影感 / OST",
+      "tracks": [
+        {
+          "name": "Let It Go",
+          "artist": "Idina Menzel"
+        },
+        {
+          "name": "Try Everything",
+          "artist": "Shakira"
+        },
+        {
+          "name": "Sunflower (Spider-Man: Into the Spider-Verse)",
+          "artist": "Post Malone & Swae Lee"
+        },
+        {
+          "name": "夢灯籠",
+          "artist": "RADWIMPS"
+        },
+        {
+          "name": "Mystery of Love",
+          "artist": "Sufjan Stevens"
+        },
+        {
+          "name": "Young and Beautiful",
+          "artist": "Lana Del Rey"
+        },
+        {
+          "name": "See You Again (feat. Charlie Puth) [From Furious 7]",
+          "artist": "Wiz Khalifa"
+        },
+        {
+          "name": "Love Me Like You Do",
+          "artist": "Ellie Goulding"
+        },
+        {
+          "name": "A Thousand Years",
+          "artist": "Christina Perri"
+        },
+        {
+          "name": "Pray For Me",
+          "artist": "The Weeknd, Kendrick Lamar"
+        }
+      ]
+    }
+  ],
+  "favorites_all": [
+    {
+      "name": "最后一页",
+      "artist": "江语晨"
+    },
+    {
+      "name": "爱错",
+      "artist": "王力宏"
+    },
+    {
+      "name": "不只是场梦",
+      "artist": "李玖哲"
+    },
+    {
+      "name": "雨爱",
+      "artist": "杨丞琳"
+    },
+    {
+      "name": "几分之几",
+      "artist": "卢广仲"
+    },
+    {
+      "name": "Beauty and a Beat (feat. Nicki Minaj)",
+      "artist": "Justin Bieber"
+    },
+    {
+      "name": "drop dead",
+      "artist": "Olivia Rodrigo"
+    },
+    {
+      "name": "到此为止",
+      "artist": "徐佳莹"
+    },
+    {
+      "name": "Choosin' Texas",
+      "artist": "Ella Langley"
+    },
+    {
+      "name": "二十二",
+      "artist": "陶喆"
+    },
+    {
+      "name": "Sign of the Times",
+      "artist": "Harry Styles"
+    },
+    {
+      "name": "Red Light",
+      "artist": "Kevin Abstract, Quadeca & Ameer Vann"
+    },
+    {
+      "name": "Turnin'",
+      "artist": "Young Rising Sons"
+    },
+    {
+      "name": "流沙",
+      "artist": "陶喆"
+    },
+    {
+      "name": "Don’t You (Taylor’s Version) [From The Vault]",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Risk It All",
+      "artist": "Bruno Mars"
+    },
+    {
+      "name": "Who Knows",
+      "artist": "Daniel Caesar"
+    },
+    {
+      "name": "Head in a Jar",
+      "artist": "Khamari"
+    },
+    {
+      "name": "Spring Into Summer",
+      "artist": "Lizzy McAlpine"
+    },
+    {
+      "name": "Coming Up Roses",
+      "artist": "Harry Styles"
+    },
+    {
+      "name": "The Fate of Ophelia",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "DtMF",
+      "artist": "Bad Bunny"
+    },
+    {
+      "name": "戒烟",
+      "artist": "李荣浩"
+    },
+    {
+      "name": "Cry For Me",
+      "artist": "The Weeknd"
+    },
+    {
+      "name": "Man I Need",
+      "artist": "Olivia Dean"
+    },
+    {
+      "name": "Last Christmas (Single Version)",
+      "artist": "Wham!"
+    },
+    {
+      "name": "Father Figure",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "多远都要在一起",
+      "artist": "邓紫棋"
+    },
+    {
+      "name": "Opalite",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "你不知道的事",
+      "artist": "王力宏"
+    },
+    {
+      "name": "想你的夜",
+      "artist": "关喆"
+    },
+    {
+      "name": "Bad Romance",
+      "artist": "Lady Gaga"
+    },
+    {
+      "name": "The Cure",
+      "artist": "Lady Gaga"
+    },
+    {
+      "name": "爱错(feat. 单依纯) [with 单依纯] [Live]",
+      "artist": "王力宏"
+    },
+    {
+      "name": "麦恩莉",
+      "artist": "方大同"
+    },
+    {
+      "name": "The Life of a Showgirl (feat. Sabrina Carpenter)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Elizabeth Taylor",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "CANCELLED!",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "落叶归根",
+      "artist": "王力宏"
+    },
+    {
+      "name": "江南",
+      "artist": "林俊杰"
+    },
+    {
+      "name": "富士山下",
+      "artist": "陈奕迅"
+    },
+    {
+      "name": "背对背拥抱",
+      "artist": "林俊杰"
+    },
+    {
+      "name": "Go Go Juice",
+      "artist": "Sabrina Carpenter"
+    },
+    {
+      "name": "When Did You Get Hot?",
+      "artist": "Sabrina Carpenter"
+    },
+    {
+      "name": "Manchild",
+      "artist": "Sabrina Carpenter"
+    },
+    {
+      "name": "DAISIES",
+      "artist": "Justin Bieber"
+    },
+    {
+      "name": "loml",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "White Dress",
+      "artist": "Lana Del Rey"
+    },
+    {
+      "name": "Drive",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "模特",
+      "artist": "李荣浩"
+    },
+    {
+      "name": "李白",
+      "artist": "李荣浩"
+    },
+    {
+      "name": "Baby (feat. Ludacris)",
+      "artist": "Justin Bieber"
+    },
+    {
+      "name": "Vanish Into You",
+      "artist": "Lady Gaga"
+    },
+    {
+      "name": "珠玉",
+      "artist": "单依纯"
+    },
+    {
+      "name": "If I Were A Boy",
+      "artist": "Mickey Guyton"
+    },
+    {
+      "name": "If I Die Young",
+      "artist": "The Band Perry"
+    },
+    {
+      "name": "Video Games (Remastered)",
+      "artist": "Lana Del Rey"
+    },
+    {
+      "name": "Young and Beautiful",
+      "artist": "Lana Del Rey"
+    },
+    {
+      "name": "Chemtrails Over the Country Club",
+      "artist": "Lana Del Rey"
+    },
+    {
+      "name": "Sugar",
+      "artist": "Maroon 5"
+    },
+    {
+      "name": "A Thousand Years",
+      "artist": "Christina Perri"
+    },
+    {
+      "name": "Follow You",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Salvatore",
+      "artist": "Lana Del Rey"
+    },
+    {
+      "name": "Abracadabra",
+      "artist": "Lady Gaga"
+    },
+    {
+      "name": "exile (feat. Bon Iver)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Shots",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Lonely is the Night (feat. A-Lin)",
+      "artist": "陶喆"
+    },
+    {
+      "name": "gloria",
+      "artist": "Kendrick Lamar"
+    },
+    {
+      "name": "luther",
+      "artist": "Kendrick Lamar"
+    },
+    {
+      "name": "How Bad Do U Want Me",
+      "artist": "Lady Gaga"
+    },
+    {
+      "name": "Pink Pony Club",
+      "artist": "Chappell Roan"
+    },
+    {
+      "name": "Azizam",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "Shots (feat. Broiler) [Broiler Remix]",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Bones",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Eyes Closed",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "It's Time",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Enemy (From the series Arcane League of Legends)",
+      "artist": "Imagine Dragons, Arcane & League of Legends Music"
+    },
+    {
+      "name": "In Your Corner",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Sharks",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Walking the Wire",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Wake Up",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Radioactive",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Nice to Meet You",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Bad Liar",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Whatever It Takes",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Take Me to the Beach",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Tiptoe",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Thunder",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Fire in These Hills",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Slut! (Taylor's Version) [From The Vault]",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Don’t Forget Me",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "With You",
+      "artist": "Dean Lewis"
+    },
+    {
+      "name": "Die With A Smile",
+      "artist": "Lady Gaga & Bruno Mars"
+    },
+    {
+      "name": "ocean eyes",
+      "artist": "Billie Eilish"
+    },
+    {
+      "name": "才二十三",
+      "artist": "方大同"
+    },
+    {
+      "name": "特别的人",
+      "artist": "方大同"
+    },
+    {
+      "name": "天天",
+      "artist": "陶喆"
+    },
+    {
+      "name": "Not Like Us",
+      "artist": "Kendrick Lamar"
+    },
+    {
+      "name": "As It Was",
+      "artist": "Harry Styles"
+    },
+    {
+      "name": "Snow On The Beach (feat. More Lana Del Rey)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "爱我还是他",
+      "artist": "陶喆"
+    },
+    {
+      "name": "Let It Go",
+      "artist": "Idina Menzel"
+    },
+    {
+      "name": "False God",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Falling",
+      "artist": "Harry Styles"
+    },
+    {
+      "name": "Stuck with U",
+      "artist": "Ariana Grande & Justin Bieber"
+    },
+    {
+      "name": "圣诞结",
+      "artist": "陈奕迅"
+    },
+    {
+      "name": "Lonely Christmas",
+      "artist": "陈奕迅"
+    },
+    {
+      "name": "遇见",
+      "artist": "孙燕姿"
+    },
+    {
+      "name": "All I Want for Christmas Is You",
+      "artist": "Mariah Carey"
+    },
+    {
+      "name": "Last Christmas",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Wildest Dreams (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Style (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "willow",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "marjorie",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "august",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "cardigan",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "孤独患者",
+      "artist": "陈奕迅"
+    },
+    {
+      "name": "泪桥",
+      "artist": "伍佰 & China Blue"
+    },
+    {
+      "name": "APT.",
+      "artist": "ROSÉ & Bruno Mars"
+    },
+    {
+      "name": "My Love (Radio Edit)",
+      "artist": "Westlife"
+    },
+    {
+      "name": "We Are Young (feat. Janelle Monáe)",
+      "artist": "Fun."
+    },
+    {
+      "name": "See You Again (feat. Charlie Puth) [From Furious 7]",
+      "artist": "Wiz Khalifa"
+    },
+    {
+      "name": "TiK ToK",
+      "artist": "Kesha"
+    },
+    {
+      "name": "Peaches (feat. Daniel Caesar & GIVĒON)",
+      "artist": "Justin Bieber"
+    },
+    {
+      "name": "Despacito (Versión Urbana/Sky)",
+      "artist": "Luis Fonsi & Daddy Yankee"
+    },
+    {
+      "name": "Umbrella (feat. JAŸ-Z)",
+      "artist": "Rihanna"
+    },
+    {
+      "name": "One Day",
+      "artist": "Matisyahu"
+    },
+    {
+      "name": "Faded",
+      "artist": "Alan Walker"
+    },
+    {
+      "name": "Nothin' On You (feat. Bruno Mars)",
+      "artist": "B.o.B"
+    },
+    {
+      "name": "Unstoppable",
+      "artist": "Sia Furler"
+    },
+    {
+      "name": "Move Your Body (Alan Walker Remix)",
+      "artist": "Sia Furler"
+    },
+    {
+      "name": "Apologize",
+      "artist": "OneRepublic"
+    },
+    {
+      "name": "Scars to Your Beautiful",
+      "artist": "Alessia Cara"
+    },
+    {
+      "name": "Good Time",
+      "artist": "Carly Rae Jepsen & Owl City"
+    },
+    {
+      "name": "Catch My Breath",
+      "artist": "Kelly Clarkson"
+    },
+    {
+      "name": "The Monster (feat. Rihanna)",
+      "artist": "Eminem"
+    },
+    {
+      "name": "Dusk Till Dawn (feat. Sia)",
+      "artist": "ZAYN"
+    },
+    {
+      "name": "Hello",
+      "artist": "Adele"
+    },
+    {
+      "name": "Someone Like You",
+      "artist": "Adele"
+    },
+    {
+      "name": "Sweet but Psycho",
+      "artist": "Ava Max"
+    },
+    {
+      "name": "Closer (feat. Halsey)",
+      "artist": "The Chainsmokers"
+    },
+    {
+      "name": "Timber (feat. Kesha)",
+      "artist": "Pitbull"
+    },
+    {
+      "name": "Because of You",
+      "artist": "Kelly Clarkson"
+    },
+    {
+      "name": "Something Just Like This",
+      "artist": "The Chainsmokers & Coldplay"
+    },
+    {
+      "name": "Love Me Like You Do",
+      "artist": "Ellie Goulding"
+    },
+    {
+      "name": "One Last Time",
+      "artist": "Ariana Grande"
+    },
+    {
+      "name": "You're Beautiful",
+      "artist": "James Blunt"
+    },
+    {
+      "name": "Love the Way You Lie (feat. Rihanna)",
+      "artist": "Eminem"
+    },
+    {
+      "name": "Ferrari",
+      "artist": "Bebe Rexha"
+    },
+    {
+      "name": "Talking to the Moon",
+      "artist": "Bruno Mars"
+    },
+    {
+      "name": "Demons",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Animals",
+      "artist": "Maroon 5"
+    },
+    {
+      "name": "Monsters (feat. Katie Sky)",
+      "artist": "Timeflies"
+    },
+    {
+      "name": "The Nights",
+      "artist": "Avicii"
+    },
+    {
+      "name": "7 Years",
+      "artist": "Conor Maynard"
+    },
+    {
+      "name": "Counting Stars",
+      "artist": "OneRepublic"
+    },
+    {
+      "name": "There's Nothing Holdin' Me Back",
+      "artist": "Shawn Mendes"
+    },
+    {
+      "name": "就让这大雨全都落下",
+      "artist": "容祖儿"
+    },
+    {
+      "name": "Timeless",
+      "artist": "The Weeknd & Playboi Carti"
+    },
+    {
+      "name": "us. (feat. Taylor Swift)",
+      "artist": "Gracie Abrams"
+    },
+    {
+      "name": "That Was the Worst Christmas Ever!",
+      "artist": "Sufjan Stevens"
+    },
+    {
+      "name": "Best Day Of My Life",
+      "artist": "Tom Odell"
+    },
+    {
+      "name": "Dancing In The Flames",
+      "artist": "The Weeknd"
+    },
+    {
+      "name": "What Am I",
+      "artist": "Why Don't We"
+    },
+    {
+      "name": "普通朋友",
+      "artist": "陶喆"
+    },
+    {
+      "name": "十年",
+      "artist": "陈奕迅"
+    },
+    {
+      "name": "Dancing With Your Ghost",
+      "artist": "Sasha Alex Sloan"
+    },
+    {
+      "name": "Renegade (feat. Taylor Swift)",
+      "artist": "Big Red Machine"
+    },
+    {
+      "name": "丑八怪",
+      "artist": "薛之谦"
+    },
+    {
+      "name": "You Proof",
+      "artist": "Morgan Wallen"
+    },
+    {
+      "name": "Thought You Should Know",
+      "artist": "Morgan Wallen"
+    },
+    {
+      "name": "Thinkin’ Bout Me",
+      "artist": "Morgan Wallen"
+    },
+    {
+      "name": "Stronger (What Doesn't Kill You)",
+      "artist": "Kelly Clarkson"
+    },
+    {
+      "name": "champagne problems",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "tolerate it",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "no body, no crime (feat. HAIM)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "演员",
+      "artist": "薛之谦"
+    },
+    {
+      "name": "夜曲",
+      "artist": "周杰伦"
+    },
+    {
+      "name": "稻香",
+      "artist": "周杰伦"
+    },
+    {
+      "name": "明明就",
+      "artist": "周杰伦"
+    },
+    {
+      "name": "晴天",
+      "artist": "周杰伦"
+    },
+    {
+      "name": "搁浅",
+      "artist": "周杰伦"
+    },
+    {
+      "name": "花海",
+      "artist": "周杰伦"
+    },
+    {
+      "name": "Kill Bill",
+      "artist": "SZA"
+    },
+    {
+      "name": "夢灯籠",
+      "artist": "RADWIMPS"
+    },
+    {
+      "name": "Too Sweet",
+      "artist": "Hozier"
+    },
+    {
+      "name": "Last Night",
+      "artist": "Morgan Wallen"
+    },
+    {
+      "name": "If I Ain't Got You",
+      "artist": "Alicia Keys"
+    },
+    {
+      "name": "Mr. Perfectly Fine (Taylor’s Version) [From The Vault]",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Baby (Acoustic Version)",
+      "artist": "Justin Bieber"
+    },
+    {
+      "name": "Die For You (Remix)",
+      "artist": "The Weeknd & Ariana Grande"
+    },
+    {
+      "name": "After Hours",
+      "artist": "The Weeknd"
+    },
+    {
+      "name": "Die For You",
+      "artist": "The Weeknd"
+    },
+    {
+      "name": "Starboy (feat. Daft Punk)",
+      "artist": "The Weeknd"
+    },
+    {
+      "name": "Sunflower (Spider-Man: Into the Spider-Verse)",
+      "artist": "Post Malone & Swae Lee"
+    },
+    {
+      "name": "I Had Some Help (feat. Morgan Wallen)",
+      "artist": "Post Malone"
+    },
+    {
+      "name": "Believer",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "The Joker And The Queen",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "The Joker And The Queen (feat. Taylor Swift)",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "Perfect",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "Shape of You",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "See You Again (feat. Charlie Puth)",
+      "artist": "Wiz Khalifa"
+    },
+    {
+      "name": "Done For Me (feat. Kehlani)",
+      "artist": "Charlie Puth"
+    },
+    {
+      "name": "We Don't Talk Anymore (feat. Selena Gomez)",
+      "artist": "Charlie Puth"
+    },
+    {
+      "name": "Attention",
+      "artist": "Charlie Puth"
+    },
+    {
+      "name": "7 rings",
+      "artist": "Ariana Grande"
+    },
+    {
+      "name": "betty",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "You Belong With Me (Taylor’s Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Anti-Hero",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Speak Now (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Enchanted (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Long Live (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "I Can See You (Taylor's Version) (From The Vault)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Dear John (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Back To December (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Sparks Fly (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Mine (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Hits Different",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Karma (feat. Ice Spice)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Dear Reader",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Would've, Could've, Should've",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Glitch",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "High Infidelity",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Paris",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Bigger Than The Whole Sky",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Mastermind",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Sweet Nothing",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Karma",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Vigilante Shit",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Question...?",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Midnight Rain",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "You're On Your Own, Kid",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Snow On The Beach (feat. Lana Del Rey)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Maroon",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Lavender Haze",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Call It What You Want",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "King of My Heart",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Getaway Car",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Gorgeous",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Look What You Made Me Do",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Delicate",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "End Game (feat. Ed Sheeran & Future)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "...Ready For It?",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Daylight",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Death By A Thousand Cuts",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Cornelia Street",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Miss Americana & The Heartbreak Prince",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "The Man",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Cruel Summer",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "evermore (feat. Bon Iver)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "hoax",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "the last great american dynasty",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "the 1",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Love Story (Taylor’s Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "All Too Well (10 Minute Version) [Taylor's Version] [From The Vault]",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "We Are Never Ever Getting Back Together (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "22 (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Red (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Bad Blood (Taylor's Version) [feat. Kendrick Lamar]",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Is It Over Now? (Taylor's Version) [From The Vault]",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "New Romantics (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Don’t Blame Me",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Blank Space (Taylor's Version)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "The Archer",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "London Boy",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Try Everything",
+      "artist": "Shakira"
+    },
+    {
+      "name": "Empty Love (feat. Kid Princess)",
+      "artist": "Lulleaux"
+    },
+    {
+      "name": "Galway Girl",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "name": "White Ferrari",
+      "artist": "Frank Ocean"
+    },
+    {
+      "name": "Payphone (feat. Wiz Khalifa)",
+      "artist": "Maroon 5"
+    },
+    {
+      "name": "How Long",
+      "artist": "Charlie Puth"
+    },
+    {
+      "name": "Viva La Vida",
+      "artist": "Coldplay"
+    },
+    {
+      "name": "golden hour",
+      "artist": "JVKE"
+    },
+    {
+      "name": "Take Me Hands (feat. Cecile Corbel)",
+      "artist": "DAISHI DANCE"
+    },
+    {
+      "name": "What Makes You Beautiful",
+      "artist": "One Direction"
+    },
+    {
+      "name": "we can't be friends (wait for your love)",
+      "artist": "Ariana Grande"
+    },
+    {
+      "name": "So High School",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "The Black Dog",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "The Smallest Man Who Ever Lived",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "I Can Do It With a Broken Heart",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Who’s Afraid of Little Old Me?",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Guilty as Sin?",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Fortnight (feat. Post Malone)",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Down Bad",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "But Daddy I Love Him",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Uptown Funk (feat. Bruno Mars)",
+      "artist": "Mark Ronson"
+    },
+    {
+      "name": "Mystery of Love",
+      "artist": "Sufjan Stevens"
+    },
+    {
+      "name": "Trespassing",
+      "artist": "Adam Lambert"
+    },
+    {
+      "name": "Whataya Want from Me",
+      "artist": "Adam Lambert"
+    },
+    {
+      "name": "Call Out My Name",
+      "artist": "The Weeknd"
+    },
+    {
+      "name": "Pray For Me",
+      "artist": "The Weeknd, Kendrick Lamar"
+    },
+    {
+      "name": "Natural",
+      "artist": "Imagine Dragons"
+    },
+    {
+      "name": "Better Now",
+      "artist": "Post Malone"
+    },
+    {
+      "name": "All Too Well (Taylor's Version)",
+      "artist": "Taylor Swift"
     }
   ]
 }

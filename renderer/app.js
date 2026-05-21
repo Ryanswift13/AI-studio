@@ -234,6 +234,14 @@ function setEq(on) {
   $('eq').classList.toggle('playing', on);
 }
 
+/* 播放/暂停键图标随播放状态切换 */
+const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2 19 12 8 18.8z"/></svg>';
+const ICON_PAUSE =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5h3.2v14H8.5z"/><path d="M12.3 5h3.2v14h-3.2z"/></svg>';
+function setPlayIcon(playing) {
+  $('btnPlay').innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+}
+
 function playSpeak(url) {
   if (!url) return false;
   mode = 'speaking';
@@ -261,12 +269,14 @@ function playMusic(track) {
 }
 
 audio.addEventListener('play', () => {
+  setPlayIcon(true);
   if (mode === 'music') {
     setNowState('PLAYING');
     setEq(true);
   }
 });
 audio.addEventListener('pause', () => {
+  setPlayIcon(false);
   if (mode === 'music') {
     setNowState('PAUSED');
     setEq(false);

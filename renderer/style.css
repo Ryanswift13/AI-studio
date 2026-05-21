@@ -150,6 +150,18 @@ main::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3
 .view { display: none; flex-direction: column; gap: 12px; }
 .view.active { display: flex; }
 
+/* 播放视图：时钟 + 播放器常驻顶部，仅下方队列/聊天滚动 */
+#view-player.active { height: 100%; }
+#view-player > .clock-panel,
+#view-player > .nowbar { flex-shrink: 0; }
+.player-scroll {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.player-scroll::-webkit-scrollbar { width: 6px; }
+.player-scroll::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
+
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -213,11 +225,18 @@ main::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3
   width: 28px; height: 28px;
   background: transparent; border: 1px solid var(--line);
   border-radius: 50%; color: var(--ink-dim);
-  cursor: pointer; font-size: 11px;
+  cursor: pointer;
   display: grid; place-items: center;
+  transition: color 0.12s, border-color 0.12s;
 }
+.transport button svg { width: 13px; height: 13px; fill: currentColor; display: block; }
 .transport button:hover { color: var(--ink); border-color: var(--line-strong); }
+/* 播放键作为主操作，默认即点亮强调色 */
+#btnPlay { color: var(--accent); border-color: var(--line-strong); }
+#btnPlay:hover { color: var(--accent); }
+.transport .fav svg { fill: none; stroke: currentColor; stroke-width: 2.2; }
 .transport .fav.on { color: var(--live); border-color: var(--live); }
+.transport .fav.on svg { fill: currentColor; }
 
 .now-bottom { display: flex; align-items: center; gap: 8px; }
 .vol {
@@ -304,8 +323,13 @@ main::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3
 .round {
   width: 38px; height: 38px; border-radius: 50%;
   background: transparent; border: 1px solid var(--line);
-  color: var(--ink-dim); cursor: pointer; font-size: 14px;
+  color: var(--ink-dim); cursor: pointer;
   display: grid; place-items: center;
+}
+.round svg { width: 18px; height: 18px; display: block; }
+.ic-stroke {
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 .round:hover { border-color: var(--line-strong); color: var(--ink); }
 .round.send { background: var(--accent); border-color: var(--accent); color: #fff; }
@@ -403,5 +427,9 @@ main::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3
 .modal-foot code {
   background: var(--accent-soft); color: var(--accent);
   padding: 1px 4px; border-radius: 3px; font-size: 9px;
+}
+#loginBtn {
+  max-width: 124px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 #loginBtn.logged-in { border-color: var(--live); color: var(--live); }

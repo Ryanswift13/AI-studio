@@ -58,11 +58,11 @@
               <div class="now-state" id="nowState">IDLE</div>
             </div>
             <div class="transport">
-              <button id="btnPrev" title="上一首">⏮</button>
-              <button id="btnPlay" title="播放/暂停">⏯</button>
-              <button id="btnNext" title="下一首">⏭</button>
-              <button id="btnStop" title="停止">⏹</button>
-              <button id="btnFav" class="fav" title="收藏">♥</button>
+              <button id="btnPrev" title="上一首"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2.6v14H6z"/><path d="M20 5.5v13L9.4 12z"/></svg></button>
+              <button id="btnPlay" title="播放/暂停"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2 19 12 8 18.8z"/></svg></button>
+              <button id="btnNext" title="下一首"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5H18v14h-2.6z"/><path d="M4 5.5v13L14.6 12z"/></svg></button>
+              <button id="btnStop" title="停止"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/></svg></button>
+              <button id="btnFav" class="fav" title="收藏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3 10.6 19C5.7 14.6 2.5 11.7 2.5 8.1 2.5 5.2 4.8 3 7.6 3c1.6 0 3.1.75 4.4 2.3C13.3 3.75 14.8 3 16.4 3c2.8 0 5.1 2.2 5.1 5.1 0 3.6-3.2 6.5-8.1 10.9z"/></svg></button>
             </div>
           </div>
           <div class="now-bottom">
@@ -79,7 +79,8 @@
           </div>
         </div>
 
-        <!-- 队列 -->
+        <!-- 队列 + 聊天：唯一滚动区 -->
+        <div class="player-scroll">
         <div class="queue">
           <div class="section-head"><span>QUEUE</span><span id="queueCount">0 TRACKS</span></div>
           <ul id="queueList" class="queue-list"></ul>
@@ -93,6 +94,7 @@
           </div>
           <div class="feed-status" id="connLine">连接 Claudio server…</div>
           <div id="messages" class="messages"></div>
+        </div>
         </div>
       </section>
 
@@ -120,8 +122,8 @@
     <!-- 输入栏 -->
     <footer class="inputbar" id="inputbar">
       <input id="chatInput" type="text" placeholder="Say something to the DJ..." autocomplete="off" />
-      <button id="micBtn" class="round" title="语音输入">🎤</button>
-      <button id="sendBtn" class="round send" title="发送">↑</button>
+      <button id="micBtn" class="round" title="语音输入"><svg viewBox="0 0 24 24" aria-hidden="true" class="ic-stroke"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v3.5M8.5 21h7"/></svg></button>
+      <button id="sendBtn" class="round send" title="发送"><svg viewBox="0 0 24 24" aria-hidden="true" class="ic-stroke"><path d="M12 20V5.5M6 11.5 12 5l6 6.5"/></svg></button>
     </footer>
     <div class="statusbar">
       <span>CLAUDIO FM</span>
