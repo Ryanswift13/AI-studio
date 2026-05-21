@@ -71,6 +71,13 @@ function addPlay({ name, artist = '', song_id = '', reason = '' }) {
 function recentPlays(limit = 30) {
   return store.plays.slice(-limit).reverse(); // 最近在前
 }
+// 本地自然日（00:00 起）的播放，用于避免一天内重复选曲。
+function playsToday() {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  const ts = start.getTime();
+  return store.plays.filter((p) => p.played_at >= ts);
+}
 function topArtists(limit = 8) {
   const count = {};
   for (const p of store.plays) {
@@ -114,6 +121,7 @@ module.exports = {
   recentMessages,
   addPlay,
   recentPlays,
+  playsToday,
   topArtists,
   playHours,
   savePlan,

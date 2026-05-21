@@ -58,9 +58,10 @@ async function pieceEnvironment() {
   return lines.join('\n');
 }
 
-// 片 4：已检索记忆（长期记忆 + 近期对话 + 播放记录）
+// 片 4：已检索记忆（长期记忆 + 今日已播 + 近期对话 + 最近 8 条播放）
 function pieceMemory() {
   const mem = memory.all();
+  const today = state.playsToday();
   const msgs = state.recentMessages(12);
   const plays = state.recentPlays(8);
   const lines = [];
@@ -78,6 +79,11 @@ function pieceMemory() {
     }
   }
 
+  if (today.length) {
+    lines.push('今日已播过（**绝对避免再选**，除非听众明确说要再听）：');
+    for (const p of today) lines.push(`  ${p.name} — ${p.artist}`);
+  }
+
   if (msgs.length) {
     lines.push('最近对话：');
     for (const m of msgs) {
@@ -86,7 +92,7 @@ function pieceMemory() {
     }
   }
   if (plays.length) {
-    lines.push('最近播放（避免立即重复）：');
+    lines.push('最近播放（接续/避免立即重复）：');
     for (const p of plays) lines.push(`  ${p.name} — ${p.artist}`);
   }
   return lines.join('\n');
