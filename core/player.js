@@ -45,17 +45,23 @@ function enqueue(tracks, replace = false) {
     }
     return snapshot();
   }
+  // 只有当前曲目真切换时才 announce，否则纯追加不应打断正在播的那首
+  let currentChanged = false;
   if (replace) {
     queue = [...tracks];
     index = 0;
+    currentChanged = true;
   } else {
     const wasEmpty = index < 0;
     queue.push(...tracks);
-    if (wasEmpty) index = 0;
+    if (wasEmpty) {
+      index = 0;
+      currentChanged = true;
+    }
   }
   log('player', `队列 ${queue.length} 首，当前第 ${index + 1} 首`);
   bus.push('queue', snapshot());
-  announce();
+  if (currentChanged) announce();
   return snapshot();
 }
 
