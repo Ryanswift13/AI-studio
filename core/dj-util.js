@@ -20,19 +20,39 @@ function extractDjJson(text) {
 }
 
 function normalize(obj, source) {
-  const play = Array.isArray(obj && obj.play) ? obj.play : [];
-  const remember = Array.isArray(obj && obj.remember) ? obj.remember : [];
+  obj = obj || {};
+  // 新 Set 格式 (theme/intro/tracks+transition/outro) 优先；兼容旧 say/play 降级
+  const theme = String(obj.theme || '').trim();
+  const intro = String(obj.intro || obj.say || '').trim();
+  const outro = String(obj.outro || '').trim();
+  const rawTracks = Array.isArray(obj.tracks)
+    ? obj.tracks
+    : Array.isArray(obj.play)
+      ? obj.play.map((p) =>
+          typeof p === 'string'
+            ? { name: p, artist: '', transition: null }
+            : { name: p && p.name, artist: p && p.artist, transition: null }
+        )
+      : [];
+  const tracks = rawTracks
+    .map((t, i) => ({
+      name: String((t && t.name) || '').trim(),
+      artist: String((t && t.artist) || '').trim(),
+      transition:
+        i === 0 ? null : String((t && t.transition) || '').trim() || null,
+    }))
+    .filter((t) => t.name);
+  const remember = Array.isArray(obj.remember) ? obj.remember : [];
   return {
-    say: (obj && obj.say) || '……',
-    play: play
-      .map((p) =>
-        typeof p === 'string'
-          ? { name: p, artist: '' }
-          : { name: (p && p.name) || '', artist: (p && p.artist) || '' }
-      )
-      .filter((p) => p.name),
-    reason: (obj && obj.reason) || '',
-    segue: (obj && obj.segue) || '',
+    theme,
+    intro,
+    outro,
+    tracks,
+    // 向后兼容老调用方读 say/play
+    say: intro,
+    play: tracks.map((t) => ({ name: t.name, artist: t.artist })),
+    reason: String(obj.reason || '').trim(),
+    segue: String(obj.segue || '').trim(),
     remember: remember
       .map((r) => ({
         type: (r && r.type) || '',
@@ -51,7 +71,7 @@ function mockResponse(opts = {}) {
     const j = JSON.parse(fs.readFileSync(path.join(paths.user, 'playlists.json'), 'utf8'));
     playlists = j.playlists || [];
   } catch {
-    /* 无歌单也能给出空 play */
+    /* 无歌单也能给出空 set */
   }
   const hour = new Date().getHours();
   let pick = playlists[0];
@@ -59,21 +79,26 @@ function mockResponse(opts = {}) {
   else if (hour < 18) pick = playlists.find((p) => /专注/.test(p.mood)) || pick;
   else pick = playlists.find((p) => /放松|深夜/.test(p.mood)) || pick;
 
-  const tracks = pick && pick.tracks ? pick.tracks.slice(0, 2) : [];
+  const picked = pick && pick.tracks ? pick.tracks.slice(0, 3) : [];
+  const tracks = picked.map((t, i) => ({
+    name: t.name,
+    artist: t.artist || '',
+    transition: i === 0 ? null : `（mock 过渡，未配 API key 时的占位）`,
+  }));
   const input = opts.userInput ? `你说「${opts.userInput}」，` : '';
-  const say =
-    `${input}这是 Claudio。现在是${hour}点出头，` +
-    (tracks.length
-      ? `给你放一首${tracks[0].name}，让此刻慢下来。`
-      : '先陪你待一会儿，想听什么随时告诉我。') +
-    `（当前为本地模拟模式——在 .env 配置 DEEPSEEK_API_KEY 后我会真正为你编排。）`;
-
+  const theme = pick ? `${pick.name}（mock 模式）` : '本地模拟';
   return normalize(
     {
-      say,
-      play: tracks,
+      theme,
+      intro:
+        `${input}这是 Claudio。现在是${hour}点出头，` +
+        (tracks.length
+          ? `给你放${tracks[0].name}起头，让此刻慢下来。`
+          : '先陪你待一会儿，想听什么随时告诉我。') +
+        `（当前为本地模拟模式——在 .env 配置 DEEPSEEK_API_KEY 后我会真正为你编排。）`,
+      tracks,
+      outro: tracks.length ? '这一段先到这。' : '',
       reason: `模拟模式：按时段选用歌单「${pick ? pick.name : '默认'}」`,
-      segue: '我就在这条频率上，不走开。',
     },
     'mock'
   );
