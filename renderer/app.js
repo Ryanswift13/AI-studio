@@ -292,9 +292,12 @@ audio.addEventListener('ended', async () => {
   if (mode === 'speaking') {
     playMusic(currentTrack);
   } else if (mode === 'music') {
+    // 到队尾时主进程会自动续编（DJ 大脑 + TTS）——约 3-8 秒，先告诉用户在准备
+    setNowState('NEXT…');
+    setEq(false);
     const snap = await api.next();
     applySnapshot(snap);
-    playMusic(snap.track);
+    if (snap.track) playMusic(snap.track);
   }
 });
 audio.addEventListener('timeupdate', () => {

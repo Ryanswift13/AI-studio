@@ -39,7 +39,23 @@ async function tasteProfile() {
 function register(getWindow) {
   ipcMain.handle('chat', async (_e, text) => router.handle({ text, trigger: 'chat' }));
   ipcMain.handle('now', () => player.now());
-  ipcMain.handle('next', () => player.next());
+  // 到队尾时不再原地不动（避免渲染层重复播放当前曲 = 单曲循环），
+  // 而是 await 一次 djFlow 自动续编，然后真前进到刚加进来的第一首。
+  ipcMain.handle('next', async () => {
+    const before = player.snapshot();
+    const after = player.next();
+    const atEnd =
+      before.index === after.index &&
+      before.count === after.count &&
+      after.count > 0;
+    if (!atEnd) return after;
+    try {
+      await router.handle({ text: '', trigger: 'auto-continue' });
+    } catch (e) {
+      console.warn('[ipc] auto-continue 失败:', e.message);
+    }
+    return player.next();
+  });
   ipcMain.handle('prev', () => player.prev());
   ipcMain.handle('taste', () => tasteProfile());
   ipcMain.handle('plan:today', () => state.getPlan(todayStr()));

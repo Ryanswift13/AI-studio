@@ -100,6 +100,7 @@ function pieceTrace(trigger) {
     'scheduler:morning': '由 09:00 早间播报触发——为听众开启一天。',
     'scheduler:mood': '由整点情绪检查触发——根据此刻状态微调。',
     'scheduler:calendar': '由日历 hook 触发——临近日程，做相应铺垫。',
+    'auto-continue': '队列播完了，请接着这一段电台挑 1-3 首继续。要和上一首的语气连贯，避免跳到完全不同的情绪；尽量从听众 favorites_all 里选，避免"今日已播过"列表里的曲目。',
   };
   return map[trigger] || `触发来源：${trigger}`;
 }
