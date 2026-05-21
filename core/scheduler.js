@@ -2,7 +2,7 @@
 // SCHEDULER.JS —— 节律调度：07:00 规划 / 09:00 早间 / 整点情绪检查 / 日历 hook。
 const router = require('./router');
 const state = require('./state');
-const feishu = require('./integrations/feishu');
+const calendar = require('./integrations/calendar');
 const bus = require('./bus');
 const { log, warn, todayStr } = require('./util');
 
@@ -57,7 +57,7 @@ function nextHour() {
 // 日历 hook：临近日程（15 分钟内）做一次铺垫播报。
 async function checkCalendar() {
   try {
-    const { ok, events } = await feishu.todayEvents();
+    const { ok, events } = await calendar.todayEvents();
     if (!ok) return;
     const now = Date.now();
     // 清掉已过去的日程，避免 Set 无界增长

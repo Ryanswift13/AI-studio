@@ -10,7 +10,7 @@ const ncm = require('../core/integrations/ncm');
 const fish = require('../core/integrations/fish');
 const edge = require('../core/integrations/edge-tts');
 const weather = require('../core/integrations/weather');
-const feishu = require('../core/integrations/feishu');
+const calendar = require('../core/integrations/calendar');
 const upnp = require('../core/integrations/upnp');
 const { todayStr } = require('../core/util');
 
@@ -22,7 +22,7 @@ async function tasteProfile() {
     fish.status(),
     edge.status(),
     weather.status(),
-    feishu.status(),
+    calendar.status(),
     upnp.status(),
   ]);
   const integrations = settled

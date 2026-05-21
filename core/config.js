@@ -76,10 +76,10 @@ const config = {
     lon: num('WEATHER_LON', 121.47),
     city: get('WEATHER_CITY', 'Shanghai'),
   },
-  feishu: {
-    appId: get('FEISHU_APP_ID', ''),
-    appSecret: get('FEISHU_APP_SECRET', ''),
-    calendarId: get('FEISHU_CALENDAR_ID', ''),
+  calendar: {
+    // ICS 订阅链接（iCloud/Google/Outlook 公开日历）或本地 .ics 文件路径
+    icsUrl: get('CALENDAR_ICS_URL', ''),
+    icsFile: get('CALENDAR_ICS_FILE', ''),
   },
   upnp: {
     enabled: get('UPNP_ENABLED', '1') === '1',
@@ -94,7 +94,7 @@ const config = {
 config.features = {
   deepseek: !!config.deepseek.apiKey,
   fish: !!config.fish.apiKey,
-  feishu: !!(config.feishu.appId && config.feishu.appSecret),
+  calendar: !!(config.calendar.icsUrl || config.calendar.icsFile),
   upnp: config.upnp.enabled,
   weather: true, // open-meteo 免 key，默认可用
 };

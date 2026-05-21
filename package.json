@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "msedge-tts": "^2.0.5",
-    "NeteaseCloudMusicApi": "^4.32.0"
+    "NeteaseCloudMusicApi": "^4.32.0",
+    "node-ical": "^0.26.1"
   }
 }

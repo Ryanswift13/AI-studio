@@ -137,12 +137,13 @@ async function loginStatus() {
     const data = (j && j.data) || {};
     const account = data.account || {};
     const profile = data.profile || {};
-    const loggedIn = !!(data.code === 200 || account.id || profile.userId);
+    // 网易云会给未登录会话发匿名 token（account.anonimousUser，userName 形如 1000_xxx）——不算登录
+    const loggedIn = !!profile.userId && !account.anonimousUser;
     return {
       loggedIn,
       reachable: true,
-      nickname: profile.nickname || account.userName || '',
-      userId: profile.userId || account.id || null,
+      nickname: loggedIn ? profile.nickname || '' : '',
+      userId: loggedIn ? profile.userId : null,
     };
   } catch {
     return { loggedIn: false, reachable: true, nickname: '' };
@@ -267,12 +268,17 @@ async function resolveHit(hit) {
 }
 
 // 把「歌名 + 歌手」解析为可播放曲目（含直链）。
+// top 命中常因版权/VIP 仅返回试听，逐个候选尝试，全部受限才回落占位音频。
 async function resolve(name, artist = '') {
   const query = artist ? `${name} ${artist}` : name;
-  const hits = await search(query, 4);
-  const top = hits[0];
-  if (!top || top.source === 'mock') return mockTrack(name, artist);
-  return resolveHit(top);
+  const hits = await search(query, 6);
+  if (!hits.length || hits[0].source === 'mock') return mockTrack(name, artist);
+  for (const hit of hits.slice(0, 3)) {
+    const url = await songUrl(hit.id);
+    if (url) return { ...hit, url };
+  }
+  log('ncm', `「${name}」候选均无完整直链，使用占位音频`);
+  return { ...hits[0], url: toneWav(220, 12), source: 'ncm-nourl' };
 }
 
 async function status() {
