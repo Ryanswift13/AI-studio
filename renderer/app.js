@@ -302,6 +302,36 @@ function playMusic(track) {
   audio.play().catch(() => {});
 }
 
+// Set 内 pre/post-speak 播放——和 playSpeak（聊天/调度触发的台词打断）区分
+function playSetSpeech(speech, kind /* 'pre' | 'post' */) {
+  if (!speech) return false;
+  if (speech.audio) {
+    mode = kind === 'pre' ? 'pre-speak' : 'post-speak';
+    setNowState(kind === 'pre' ? 'DJ →' : 'DJ ←');
+    setEq(false);
+    audio.src = speech.audio;
+    audio.play().catch(() => {});
+    return true;
+  }
+  // 无音频但有字幕——直接贴到聊天流（字幕电台模式）
+  if (speech.text) {
+    sysMessage(`(DJ) ${speech.text}`);
+  }
+  return false;
+}
+
+// 进入新 track：若带 before_speak 先播，否则直接 playMusic
+function startTrackPipeline(track) {
+  if (!track) return;
+  currentTrack = track;
+  if (track.before_speak) {
+    const played = playSetSpeech(track.before_speak, 'pre');
+    if (played) return;
+    // 字幕 fallback 已贴，继续 playMusic
+  }
+  playMusic(track);
+}
+
 audio.addEventListener('play', () => {
   setPlayIcon(true);
   if (mode === 'music') {
@@ -318,7 +348,7 @@ audio.addEventListener('pause', () => {
 });
 audio.addEventListener('ended', async () => {
   if (mode === 'speaking') {
-    // 优先恢复台词打断前的音乐进度；没有暂存则按当前曲目从头放
+    // 旧路径：聊天/调度触发的台词打断了当前音乐 → 恢复进度
     if (savedMusicTrack && savedMusicTime > 0) {
       const t = savedMusicTime;
       const tr = savedMusicTrack;
@@ -328,13 +358,42 @@ audio.addEventListener('ended', async () => {
     } else {
       playMusic(currentTrack);
     }
-  } else if (mode === 'music') {
-    // 到队尾时主进程会自动续编（DJ 大脑 + TTS）——约 3-8 秒，先告诉用户在准备
+    return;
+  }
+  if (mode === 'pre-speak') {
+    // pre-speak 完 → 进 music
+    if (currentTrack && currentTrack.url) {
+      mode = 'music';
+      warmed = null;
+      $('nowTitle').textContent = `${currentTrack.name}${
+        currentTrack.artist ? ' · ' + currentTrack.artist : ''
+      }`;
+      audio.src = currentTrack.url;
+      audio.play().catch(() => {});
+    }
+    return;
+  }
+  if (mode === 'post-speak') {
+    // post-speak 完 → 推进队列
     setNowState('NEXT…');
     setEq(false);
     const snap = await api.next();
     applySnapshot(snap);
-    if (snap.track) playMusic(snap.track);
+    if (snap.track) startTrackPipeline(snap.track);
+    return;
+  }
+  if (mode === 'music') {
+    // 当前曲目播完——若有 after_speak（outro）先播，否则直接 next
+    if (currentTrack && currentTrack.after_speak) {
+      const played = playSetSpeech(currentTrack.after_speak, 'post');
+      if (played) return;
+      // 字幕 fallback 已贴，直接 next
+    }
+    setNowState('NEXT…');
+    setEq(false);
+    const snap = await api.next();
+    applySnapshot(snap);
+    if (snap.track) startTrackPipeline(snap.track);
   }
 });
 audio.addEventListener('timeupdate', () => {
@@ -496,9 +555,17 @@ function handleDjResult(res) {
       tracks: res.tracks,
     },
   });
-  currentTrack = (res.snapshot && res.snapshot.track) || currentTrack;
-  if (res.audio) playSpeak(res.audio);
-  else playMusic(currentTrack);
+  const startTrack = (res.snapshot && res.snapshot.track) || currentTrack;
+  currentTrack = startTrack;
+  // 若返回了带 before_speak 的 set track（intro 挂在第一首）→ 走 set pipeline
+  if (startTrack && startTrack.before_speak) {
+    startTrackPipeline(startTrack);
+  } else if (res.audio) {
+    // 老路径：聊天台词单独播（闲聊响应或调度回复）
+    playSpeak(res.audio);
+  } else if (startTrack) {
+    playMusic(startTrack);
+  }
 }
 
 function applyCommand(res) {
