@@ -27,7 +27,7 @@ npm run dist       # electron-builder 打 Windows NSIS 安装包到 dist/
 
 ```
 renderer/ ──IPC──▶ electron/ ──▶ core/ ──▶ core/integrations/
- (窗口 UI)         (主进程)      (编排)     (ncm/fish/weather/feishu/upnp)
+ (窗口 UI)         (主进程)      (编排)     (ncm/fish/edge-tts/weather/calendar/upnp)
 ```
 
 `core/` 全部跑在 Electron **主进程**内。`electron/main.js` 在 app ready 后装配后端（`ipc.register` + `scheduler.start`）并建无边框窗口。
@@ -60,7 +60,7 @@ DJ 大脑产出固定契约 `{say, play[], reason, segue, source}`，由 `prompt
 | DeepSeek key | `dj-util.mockResponse`：按时段从 `playlists.json` 选曲 |
 | NeteaseCloudMusicApi 不可达 | `ncm.mockTrack`：占位元数据 + 正弦音 WAV |
 | TTS | `tts.speak`：Fish（有 key）→ Edge TTS（免费）→ `audio:null` 纯文本 |
-| 天气 / 飞书 / UPnP | 省略环境注入 / 日历空 / 仅记日志 |
+| 天气 / 日历 / UPnP | 省略环境注入 / 日程空 / 仅记日志 |
 
 ### 关键模块约定
 
@@ -78,4 +78,4 @@ DJ 大脑产出固定契约 `{say, play[], reason, segue, source}`，由 `prompt
 
 ## 配置
 
-复制 `.env.example` 为 `.env`。注意 `.env.example` 可能落后于 `config.js` —— 以 `config.js` 为准，当前支持的键包括 `DEEPSEEK_API_KEY` / `DEEPSEEK_MODEL` / `NCM_BASE_URL` / `NCM_LEVEL` / `NCM_COOKIE` / `FISH_API_KEY` / `FISH_VOICE_ID` / `WEATHER_LAT|LON|CITY` / `FEISHU_APP_ID|SECRET` / `UPNP_ENABLED` / `DEVTOOLS` 等。
+复制 `.env.example` 为 `.env`。注意 `.env.example` 可能落后于 `config.js` —— 以 `config.js` 为准，当前支持的键包括 `DEEPSEEK_API_KEY` / `DEEPSEEK_MODEL` / `NCM_BASE_URL` / `NCM_LEVEL` / `NCM_COOKIE` / `NCM_AUTOSTART` / `EDGE_TTS_VOICE` / `FISH_API_KEY` / `FISH_VOICE_ID` / `WEATHER_LAT|LON|CITY` / `CALENDAR_ICS_URL` / `UPNP_ENABLED` / `DEVTOOLS` 等。

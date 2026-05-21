@@ -2,21 +2,21 @@
 
 > 读懂听歌习惯 → 规划声音 → 像 DJ 那样播报
 
-Claudio 是一个 Electron 桌面应用：以 Claude Code 为大脑，结合你的品味语料、天气日程，
+Claudio 是一个 Electron 桌面应用：以 DeepSeek 为大脑，结合你的品味语料、天气与日程，
 像一位私人电台 DJ 那样为你选曲、写台词、合成语音并播报。
 
 ## 架构
 
 四层结构（见 `Structure.jpg`）：
 
-1. **外部上下文** — 用户语料（`user/*.md`）、Claude Code、网易云音乐 API、声音/天气/日程 I/O
+1. **外部上下文** — 用户语料（`user/*.md`）、DeepSeek、网易云音乐 API、声音/天气/日程 I/O
 2. **本地大脑** — `core/`：意图分流、提示词组装、大脑适配器、节律调度、声音管线、状态库
 3. **运行时聚合** — 每次触发把 6 片上下文粘成 prompt，模型输出 `{say, play, reason, segue}`
 4. **交互表层** — Electron 窗口（Player / Profile / Settings 三视图），渲染层经 IPC 与主进程通信
 
 ```
 renderer/  ──IPC──▶  electron/  ──▶  core/  ──▶  integrations/
- (窗口)              (主进程)        (编排)       (ncm/fish/weather/feishu/upnp)
+ (窗口)              (主进程)        (编排)       (ncm/fish/edge-tts/weather/calendar/upnp)
 ```
 
 ## 快速开始
@@ -34,20 +34,19 @@ npm start          # 打开 Claudio 桌面窗口
 
 | 集成 | 配置 | 未配置时的行为 |
 |---|---|---|
-| Claude Code CLI | `CLAUDE_BIN`（默认 `claude`）| 找不到 CLI → 返回内置模拟 DJ 响应 |
-| NeteaseCloudMusicApi | `NCM_BASE_URL` | 服务不可达 → 返回模拟曲目与示例音频 |
-| Fish Audio TTS | `FISH_API_KEY` / `FISH_VOICE_ID` | 缺 key → 仅显示台词文本，不合成音频 |
+| DeepSeek（大脑） | `DEEPSEEK_API_KEY` | 缺 key → 返回内置模拟 DJ 响应 |
+| NeteaseCloudMusicApi | `NCM_BASE_URL` / `NCM_AUTOSTART` | 随应用自动启动；服务不可达 → 返回模拟曲目 |
+| TTS 语音 | `EDGE_TTS_VOICE`（免费）/ `FISH_API_KEY` | Fish → Edge TTS → 纯文本，逐级降级 |
 | 天气 | `WEATHER_LAT/LON`（open-meteo 免 key）| 网络失败 → 省略天气注入 |
-| 飞书日历 | `FEISHU_APP_ID/SECRET` | 缺凭证 → 日历视为空 |
+| 日历 | `CALENDAR_ICS_URL`（ICS 订阅链接）| 未配置 → 日程视为空 |
 | UPnP / Naim | `UPNP_ENABLED` / `UPNP_DEVICE_LOCATION` | 未发现设备 → 仅记录日志 |
 
 各集成的实时可用状态会显示在 Settings 视图中。
 
-### 启动 NeteaseCloudMusicApi（可选）
+### 网易云音乐服务
 
-```bash
-npx NeteaseCloudMusicApi   # 默认监听 http://localhost:3000
-```
+Claudio 启动时会自动拉起本地 NeteaseCloudMusicApi 服务（`NCM_AUTOSTART=1`，默认开）。
+如需自行管理，可设 `NCM_AUTOSTART=0`，再手动运行 `npx NeteaseCloudMusicApi`。
 
 ## 用户语料
 
