@@ -45,18 +45,16 @@ function fileForHash(hash) {
 }
 
 // 批量合成多段台词；并行；任一段失败该位置返回 {audio:null}；空字符串返回 null entry。
-// 单段超 80 字截断（防 Edge TTS 长句问题）。
 async function speakBatch(texts) {
   if (!Array.isArray(texts)) return [];
   return Promise.all(
     texts.map(async (raw) => {
       const t = String(raw || '').trim();
       if (!t) return null;
-      const clipped = t.length > 80 ? t.slice(0, 77) + '...' : t;
       try {
-        return await speak(clipped);
+        return await speak(t);
       } catch (e) {
-        return { text: clipped, audio: null, hash: null, error: e.message };
+        return { text: t, audio: null, hash: null, error: e.message };
       }
     })
   );

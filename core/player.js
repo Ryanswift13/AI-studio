@@ -9,16 +9,9 @@ let queue = []; // 曲目对象数组
 let index = -1; // 当前曲目下标
 
 function snapshot() {
-  const t = queue[index] || null;
-  const n = queue[index + 1] || null;
   return {
-    // 完整曲目对象（含 url、before_speak、after_speak），供渲染层播放
-    track: t
-      ? { ...t, before_speak: t.before_speak || null, after_speak: t.after_speak || null }
-      : null,
-    next: n
-      ? { ...n, before_speak: n.before_speak || null, after_speak: n.after_speak || null }
-      : null,
+    track: queue[index] || null,
+    next: queue[index + 1] || null,
     index,
     queue: queue.map((t) => ({ name: t.name, artist: t.artist, id: t.id })),
     count: queue.length,

@@ -29,6 +29,9 @@ contextBridge.exposeInMainWorld('claudio', {
     report: (state) => ipcRenderer.send('audio:state', state),
   },
 
+  // outro 播完时通知主进程：当前 set 收尾
+  setOutroPlayed: () => ipcRenderer.send('set:outro-played'),
+
   // stream 推送通道（对应 WS /stream）：now-playing、DJ 播报、调度触发
   onStream: (cb) => {
     const handler = (_e, payload) => cb(payload);

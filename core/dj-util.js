@@ -104,4 +104,13 @@ function mockResponse(opts = {}) {
   );
 }
 
-module.exports = { extractDjJson, normalize, mockResponse };
+// 把 (voice, text) 组装成 speech 对象；text 空返回 null；voice 没合成成功就只带文字。
+function makeSpeech(voice, text) {
+  if (!text) return null;
+  if (voice && voice.audio) {
+    return { audio: voice.audio, hash: voice.hash, text };
+  }
+  return { audio: null, hash: null, text };
+}
+
+module.exports = { extractDjJson, normalize, mockResponse, makeSpeech };

@@ -363,20 +363,12 @@ audio.addEventListener('ended', async () => {
     return;
   }
   if (mode === 'pre-speak') {
-    // pre-speak 完 → 进 music
-    if (currentTrack && currentTrack.url) {
-      mode = 'music';
-      warmed = null;
-      $('nowTitle').textContent = `${currentTrack.name}${
-        currentTrack.artist ? ' · ' + currentTrack.artist : ''
-      }`;
-      audio.src = currentTrack.url;
-      audio.play().catch(() => {});
-    }
+    playMusic(currentTrack);
     return;
   }
   if (mode === 'post-speak') {
-    // post-speak 完 → 推进队列
+    // outro 播完 → 通知主进程标记 set 收尾，然后推进队列
+    if (window.claudio && window.claudio.setOutroPlayed) window.claudio.setOutroPlayed();
     setNowState('NEXT…');
     setEq(false);
     const snap = await api.next();
@@ -431,12 +423,12 @@ $('btnPlay').onclick = () => {
 $('btnNext').onclick = async () => {
   const snap = await api.next();
   applySnapshot(snap);
-  playMusic(snap.track);
+  if (snap.track) startTrackPipeline(snap.track);
 };
 $('btnPrev').onclick = async () => {
   const snap = await api.prev();
   applySnapshot(snap);
-  playMusic(snap.track);
+  if (snap.track) startTrackPipeline(snap.track);
 };
 $('btnStop').onclick = () => {
   audio.pause();

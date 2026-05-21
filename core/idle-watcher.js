@@ -37,6 +37,9 @@ async function check() {
 
 function start() {
   if (timer) return;
+  // 启动时若 lastUserInputAt 仍是 0（全新安装或被清过），写一笔当下，
+  // 避免 watcher 第一次 tick 就在 startup 编排期内误触 idle-chime
+  if (!state.lastUserInput()) state.markUserInput();
   timer = setInterval(check, 30 * 1000);
   log('idle-watcher', '已启动（30s 轮询）');
 }

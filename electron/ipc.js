@@ -105,6 +105,11 @@ function register(getWindow) {
   ipcMain.on('audio:state', (_e, payload) => {
     idleWatcher.setAudioPaused(payload && payload.paused);
   });
+  // 渲染层 outro 播完通知：标记当前 set 收尾
+  ipcMain.on('set:outro-played', () => {
+    state.markOutroPlayed();
+    state.endSet();
+  });
   idleWatcher.start();
 
   // bus 'stream' 事件 → 当前窗口

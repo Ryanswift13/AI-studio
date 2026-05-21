@@ -8,7 +8,14 @@ const tts = require('./tts');
 const player = require('./player');
 const state = require('./state');
 const memory = require('./memory');
+const { makeSpeech } = require('./dj-util');
 const { log } = require('./util');
+
+function writeMemory(remember, trigger) {
+  if (!remember || !remember.length) return;
+  const written = memory.addMany(remember, trigger);
+  if (written && written.length) log('router', `记忆新增 ${written.length} 条`);
+}
 
 // 提取基础控制指令的正则配置，方便后续维护
 const INTENT_RULES = [
@@ -115,10 +122,7 @@ async function djFlow({ text = '', trigger = 'chat' } = {}) {
     // 闲聊：tracks 为空时只播 intro 台词（如果有），不入队
     if (!dj.tracks || dj.tracks.length === 0) {
       const voice = dj.intro ? await tts.speak(dj.intro) : { audio: null, hash: null };
-      if (dj.remember && dj.remember.length) {
-        const written = memory.addMany(dj.remember, trigger);
-        if (written && written.length) log('router', `记忆新增 ${written.length} 条`);
-      }
+      writeMemory(dj.remember, trigger);
       const msg = state.addMessage('claudio', dj.intro || '……', {
         audio: voice.audio,
         hash: voice.hash,
@@ -156,55 +160,30 @@ async function djFlow({ text = '', trigger = 'chat' } = {}) {
       tts.speakBatch(ttsTexts),
     ]);
 
-    // voices 顺序：[intro, transition[1], transition[2], ..., outro]
-    const introVoice = voices[0] || { audio: null, hash: null };
+    // voices 顺序：[intro, transition[1..n-1], outro]
+    const introVoice = voices[0];
     const transitionVoices = voices.slice(1, voices.length - 1);
-    const outroVoice = voices[voices.length - 1] || { audio: null, hash: null };
+    const outroVoice = voices[voices.length - 1];
 
-    // 组装 queue items：speech 挂 track
+    // 组装 queue items：speech 挂 track。前一首被 skip 时该首的 transition 失效（避免"接上一首"但上一首没出现）
     const items = [];
     for (let i = 0; i < dj.tracks.length; i++) {
       const tr = resolved[i];
       if (!tr) continue;
+      const prevSkipped = i > 0 && !resolved[i - 1];
       let before_speak = null;
-      if (i === 0 && dj.intro) {
-        if (introVoice && introVoice.audio) {
-          before_speak = { audio: introVoice.audio, hash: introVoice.hash, text: dj.intro };
-        } else {
-          before_speak = { audio: null, hash: null, text: dj.intro };
-        }
-      } else if (i > 0) {
-        const tv = transitionVoices[i - 1];
-        const text = dj.tracks[i].transition || '';
-        if (text && tv && tv.audio) {
-          before_speak = { audio: tv.audio, hash: tv.hash, text };
-        } else if (text) {
-          before_speak = { audio: null, hash: null, text };
-        }
+      if (i === 0) {
+        before_speak = makeSpeech(introVoice, dj.intro);
+      } else if (!prevSkipped) {
+        before_speak = makeSpeech(transitionVoices[i - 1], dj.tracks[i].transition || '');
       }
-      let after_speak = null;
-      if (i === dj.tracks.length - 1 && dj.outro) {
-        if (outroVoice && outroVoice.audio) {
-          after_speak = { audio: outroVoice.audio, hash: outroVoice.hash, text: dj.outro };
-        } else {
-          after_speak = { audio: null, hash: null, text: dj.outro };
-        }
-      }
-      items.push({
-        ...tr,
-        reason: dj.reason,
-        before_speak,
-        after_speak,
-      });
+      const isLast = i === dj.tracks.length - 1;
+      const after_speak = isLast ? makeSpeech(outroVoice, dj.outro) : null;
+      items.push({ ...tr, reason: dj.reason, before_speak, after_speak });
     }
 
     if (items.length) player.enqueue(items);
-
-    // 写长期记忆
-    if (dj.remember && dj.remember.length) {
-      const written = memory.addMany(dj.remember, trigger);
-      if (written && written.length) log('router', `记忆新增 ${written.length} 条`);
-    }
+    writeMemory(dj.remember, trigger);
 
     // currentSet 决策：auto-continue + 未收尾 → 续编（appendSetPlanned）；其他 → 新 set
     const cur = state.getCurrentSet();
@@ -219,9 +198,11 @@ async function djFlow({ text = '', trigger = 'chat' } = {}) {
       state.startSet({ theme: dj.theme || '', planned: items.length });
     }
 
+    const introAudio = introVoice && introVoice.audio ? introVoice.audio : null;
+    const introHash = introVoice && introVoice.hash ? introVoice.hash : null;
     const meta = {
-      audio: introVoice.audio || null,
-      hash: introVoice.hash || null,
+      audio: introAudio,
+      hash: introHash,
       source: dj.source,
       reason: dj.reason,
       segue: dj.segue,
@@ -233,8 +214,8 @@ async function djFlow({ text = '', trigger = 'chat' } = {}) {
     return {
       kind: 'dj',
       say: dj.intro,
-      audio: introVoice.audio || null,
-      hash: introVoice.hash || null,
+      audio: introAudio,
+      hash: introHash,
       reason: dj.reason,
       segue: dj.segue,
       source: dj.source,
