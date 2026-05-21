@@ -165,19 +165,32 @@ function mockTrack(name, artist) {
   };
 }
 
+// 副标题里含「(Live)」「(翻唱)」「(伴奏)」「(Remix)」等的版本——用户明确表达过不喜欢，默认过滤掉。
+const COVER_LIVE_RE =
+  /[\(\[（【][^)\]）】]*?(?:live|现场|翻唱|cover|演唱会|不插电|remix|混音|伴奏|纯音乐|instrumental|karaoke|demo)[^)\]）】]*?[\)\]）】]/i;
+function isCoverOrLive(name) {
+  return !!name && COVER_LIVE_RE.test(name);
+}
+// 当用户的 query 本身就在找翻唱/现场时，关闭过滤
+function queryWantsLive(keyword) {
+  return /live|现场|翻唱|cover|演唱会|不插电|remix|混音|伴奏|karaoke|demo/i.test(keyword || '');
+}
+
 // 搜索曲目，返回标准化列表。
 async function search(keyword, limit = 6) {
   if (!(await reachable())) {
     return [mockTrack(keyword, '')];
   }
   try {
+    // 多拿一些再过滤，避免过滤后命中数太少
+    const fetchLimit = queryWantsLive(keyword) ? limit : Math.max(limit, 10);
     const j = await fetchJson(
-      `${base()}/search?keywords=${encodeURIComponent(keyword)}&limit=${limit}`,
+      `${base()}/search?keywords=${encodeURIComponent(keyword)}&limit=${fetchLimit}`,
       {},
       6000
     );
     const songs = (j && j.result && j.result.songs) || [];
-    return songs.map((s) => ({
+    const all = songs.map((s) => ({
       id: String(s.id),
       name: s.name,
       artist: (s.artists || s.ar || []).map((a) => a.name).join(' / ') || '未知歌手',
@@ -185,6 +198,10 @@ async function search(keyword, limit = 6) {
       duration: s.duration || s.dt || 0,
       source: 'ncm',
     }));
+    if (queryWantsLive(keyword)) return all.slice(0, limit);
+    const studio = all.filter((s) => !isCoverOrLive(s.name));
+    // 全是 live/cover 时保留原列表，避免出现「找不到」
+    return (studio.length ? studio : all).slice(0, limit);
   } catch (e) {
     warn('ncm', 'search 失败，降级模拟：', e.message);
     return [mockTrack(keyword, '')];
