@@ -5,7 +5,8 @@
   "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win"
+    "dist": "electron-builder --win",
+    "import-favorites": "node scripts/import-ncm-favorites.js"
   },
   "author": "",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "source": "Apple Music · Favorite Songs · 共 311 条收藏（按 ISRC 去重后 294 首）",
+    "source": "Apple Music · Favorite Songs · 共 311 条收藏（按 ISRC 去重后 294 首） + 网易云红心 37 首（2026-05-21 导入，新增 13，去重 24）",
     "note": "Ryan 的红心收藏夹——绝对偏好库。下方 playlists 是按场景画像挑出的代表曲；favorites_all 为完整列表，编排时优先从 favorites_all 中挑选，playlists 提供\"此刻该走哪种情绪\"的参照。"
   },
   "playlists": [
@@ -1889,6 +1889,58 @@
     {
       "name": "All Too Well (Taylor's Version)",
       "artist": "Taylor Swift"
+    },
+    {
+      "name": "double take",
+      "artist": "Dhruv"
+    },
+    {
+      "name": "Fresh Out The Slammer",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Peter Pan Was Right",
+      "artist": "Anson Seabra"
+    },
+    {
+      "name": "frozen heart.",
+      "artist": "8bite / Dyrox"
+    },
+    {
+      "name": "Bleeding Love",
+      "artist": "Ni/Co"
+    },
+    {
+      "name": "Take Me Hand",
+      "artist": "DAISHI DANCE / Cécile Corbel"
+    },
+    {
+      "name": "Hit the Ground",
+      "artist": "Justin Bieber"
+    },
+    {
+      "name": "Things You Said",
+      "artist": "Cody Fry / Abby Cates"
+    },
+    {
+      "name": "So Long, London",
+      "artist": "Taylor Swift"
+    },
+    {
+      "name": "Call Me Maybe",
+      "artist": "Carly Rae Jepsen"
+    },
+    {
+      "name": "lovely",
+      "artist": "Billie Eilish / Khalid"
+    },
+    {
+      "name": "SICKO MODE",
+      "artist": "Travis Scott"
+    },
+    {
+      "name": "God's Plan",
+      "artist": "Drake"
     }
   ]
 }
