@@ -31,7 +31,7 @@ function piecePersona() {
 function pieceUserCorpus() {
   if (_corpus != null) return _corpus;
   const parts = [];
-  for (const f of ['taste.md', 'routines.md', 'mood-rules.md']) {
+  for (const f of ['taste.md', 'routines.md', 'mood-rules.md', 'music-context.md']) {
     const txt = readSafe(path.join(paths.user, f));
     if (txt) parts.push(`### ${f}\n${txt}`);
   }
