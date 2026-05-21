@@ -9,9 +9,16 @@ let queue = []; // 曲目对象数组
 let index = -1; // 当前曲目下标
 
 function snapshot() {
+  const t = queue[index] || null;
+  const n = queue[index + 1] || null;
   return {
-    track: queue[index] || null, // 完整曲目对象（含 url），供渲染层播放
-    next: queue[index + 1] || null, // 下一首完整对象，供 prefetch
+    // 完整曲目对象（含 url、before_speak、after_speak），供渲染层播放
+    track: t
+      ? { ...t, before_speak: t.before_speak || null, after_speak: t.after_speak || null }
+      : null,
+    next: n
+      ? { ...n, before_speak: n.before_speak || null, after_speak: n.after_speak || null }
+      : null,
     index,
     queue: queue.map((t) => ({ name: t.name, artist: t.artist, id: t.id })),
     count: queue.length,
@@ -29,6 +36,7 @@ function announce() {
       song_id: track.id,
       reason: track.reason || '',
     });
+    state.bumpSetTrack();
     if (track.url && /^https?:/.test(track.url)) {
       upnp.play(track.url, `${track.name} - ${track.artist}`).catch(() => {});
     }
