@@ -1,5 +1,5 @@
 'use strict';
-// SCHEDULER.JS —— 节律调度：07:00 规划 / 09:00 早间 / 整点情绪检查 / 日历 hook。
+// SCHEDULER.JS —— 节律调度：启动时编排首批 + 日历 hook（07:00/09:00/整点已关闭，太吵）。
 const router = require('./router');
 const state = require('./state');
 const calendar = require('./integrations/calendar');
@@ -77,11 +77,13 @@ async function checkCalendar() {
 }
 
 function start() {
-  scheduleAt(() => nextDaily(7, 0), () => runTrigger('scheduler:plan'));
-  scheduleAt(() => nextDaily(9, 0), () => runTrigger('scheduler:morning'));
-  scheduleAt(nextHour, () => runTrigger('scheduler:mood'));
+  // 关掉 07:00/09:00/整点 mood——晚睡晚起型作息下都是噪音。
+  // 仅保留日历 hook（日程临近 15 分钟内提醒，有用）+ 启动时编排首批电台。
   timers.push(setInterval(checkCalendar, 5 * 60 * 1000));
-  log('scheduler', '节律调度已启动（07:00 规划 / 09:00 早间 / 整点情绪 / 日历 hook）');
+  // 启动 3 秒后触发一次首批编排（让 NCM 自启进程先就位 + 窗口先渲染）
+  const startupTimer = setTimeout(() => runTrigger('startup'), 3000);
+  timers.push(startupTimer);
+  log('scheduler', '节律调度已启动（启动编排 + 日历 hook；07:00/09:00/整点已关闭）');
 }
 
 function stop() {

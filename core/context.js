@@ -102,11 +102,11 @@ function pieceMemory() {
 function pieceTrace(trigger) {
   const map = {
     chat: '由听众主动发起对话触发。',
-    'scheduler:plan': '由 07:00 节律调度触发——请为今天规划一段开场。',
-    'scheduler:morning': '由 09:00 早间播报触发——为听众开启一天。',
-    'scheduler:mood': '由整点情绪检查触发——根据此刻状态微调。',
+    startup:
+      'Claudio 刚刚启动——给听众开个场。**挑 4-5 首**组成一段开场电台，注意此刻时段、天气、最近记忆和长期偏好的连贯，台词比平时多一点暖意。',
     'scheduler:calendar': '由日历 hook 触发——临近日程，做相应铺垫。',
-    'auto-continue': '队列播完了，请接着这一段电台挑 1-3 首继续。要和上一首的语气连贯，避免跳到完全不同的情绪；尽量从听众 favorites_all 里选，避免"今日已播过"列表里的曲目。',
+    'auto-continue':
+      '队列播完了，请接着这一段电台**挑 4-5 首继续**——和上一首语气连贯，避免跳到完全不同的情绪；尽量从听众 favorites_all 里选，"今日已播过"列表里的坚决不要。',
   };
   return map[trigger] || `触发来源：${trigger}`;
 }
