@@ -22,18 +22,24 @@ const INTENT_RULES = [
 // 意图识别
 function classify(raw) {
   const t = (raw || '').trim();
-  
+
+  // 0. /记一下 X —— 直接写记忆，不走大脑
+  const memoMatch = /^\/记一下\s+(.+)$/.exec(t);
+  if (memoMatch) {
+    return { kind: 'memo', content: memoMatch[1].trim() };
+  }
+
   // 1. 匹配基础命令
   for (const rule of INTENT_RULES) {
     if (rule.pattern.test(t)) return { kind: 'command', action: rule.action };
   }
-  
+
   // 2. 匹配音量 (支持绝对值)
   const volMatch = /(?:音量|volume)\D*(\d{1,3})/i.exec(t);
   if (volMatch) {
     return { kind: 'command', action: 'volume', value: Math.max(0, Math.min(100, +volMatch[1])) };
   }
-  
+
   // 3. 匹配明确点歌（含"我想听 X / 想听 X / 听一下 X"等口语化前缀）
   const musicMatch = /^(?:我想听|想听|听一下|放一下|放点|播放|放一?首|来一?首|点歌|点一?首|搜索?|search)\s*[:：]?\s*(.+)$/i.exec(t);
   if (musicMatch && musicMatch[1].trim()) {
@@ -48,7 +54,7 @@ function classify(raw) {
 
     return { kind: 'music', query };
   }
-  
+
   // 4. 兜底进入自然语言处理
   return { kind: 'nl' };
 }
@@ -265,6 +271,21 @@ async function handle({ text = '', trigger = 'chat' } = {}) {
       
       if (intent.kind === 'music') {
         return await musicFlow(intent.query);
+      }
+
+      if (intent.kind === 'memo') {
+        const isUnlike = /^取消喜欢/.test(intent.content);
+        memory.add({
+          type: 'feedback',
+          content: intent.content,
+          trigger: 'chat',
+        });
+        log('router', `手动记忆：${intent.content}`);
+        return {
+          kind: 'memo',
+          say: isUnlike ? '收回了。' : '记下了。',
+          snapshot: player.snapshot(),
+        };
       }
     }
     

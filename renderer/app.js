@@ -443,8 +443,27 @@ $('btnStop').onclick = () => {
   setNowState('STOPPED');
   setEq(false);
 };
-$('btnFav').onclick = () => $('btnFav').classList.toggle('on');
-$('btnFavTag').onclick = () => $('btnFavTag').classList.toggle('on');
+// 心形按钮接业务：写入 feedback 长期记忆。再点取消。
+async function toggleFav() {
+  if (!currentTrack || !currentTrack.name) {
+    sysMessage('没有正在播的曲目');
+    return;
+  }
+  $('btnFav').classList.toggle('on');
+  $('btnFavTag').classList.toggle('on');
+  const isOn = $('btnFav').classList.contains('on');
+  const content = isOn
+    ? `喜欢《${currentTrack.name} · ${currentTrack.artist || '未知歌手'}》`
+    : `取消喜欢《${currentTrack.name} · ${currentTrack.artist || '未知歌手'}》`;
+  try {
+    await api.chat(`/记一下 ${content}`);
+    sysMessage(`已${isOn ? '加心' : '取消'}：${currentTrack.name}`);
+  } catch (e) {
+    sysMessage(`记忆失败：${e.message}`);
+  }
+}
+$('btnFav').onclick = toggleFav;
+$('btnFavTag').onclick = toggleFav;
 $('btnHide').onclick = () => {
   const np = document.querySelector('.nowbar .progress');
   np.style.display = np.style.display === 'none' ? 'flex' : 'none';
