@@ -90,6 +90,7 @@ function register(getWindow) {
   ipcMain.handle('ncm:login:qr-start', () => ncm.loginQrStart());
   ipcMain.handle('ncm:login:qr-check', (_e, key) => ncm.loginQrCheck(key));
   ipcMain.handle('ncm:login:status', () => ncm.loginStatus());
+  ipcMain.handle('lyric', (_e, id) => ncm.lyric(id));
 
   // 无边框窗口控制
   ipcMain.on('win:minimize', () => {

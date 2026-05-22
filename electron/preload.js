@@ -19,6 +19,7 @@ contextBridge.exposeInMainWorld('claudio', {
   ncmLoginQrStart: () => ipcRenderer.invoke('ncm:login:qr-start'),
   ncmLoginQrCheck: (key) => ipcRenderer.invoke('ncm:login:qr-check', key),
   ncmLoginStatus: () => ipcRenderer.invoke('ncm:login:status'),
+  lyric: (id) => ipcRenderer.invoke('lyric', id),
 
   // 无边框窗口控制
   minimize: () => ipcRenderer.send('win:minimize'),

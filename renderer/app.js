@@ -300,6 +300,63 @@ function playMusic(track) {
   }`;
   audio.src = currentTrack.url;
   audio.play().catch(() => {});
+  loadLyric(currentTrack);
+}
+
+/* ───────── 歌词同步 ───────── */
+// 解析后的当前曲歌词：[{ t: 秒, text }]，按时间升序
+let lyricLines = [];
+let lyricForId = null;
+let lyricIdx = -1;
+
+function parseLrc(lrc) {
+  const out = [];
+  for (const raw of String(lrc || '').split(/\r?\n/)) {
+    const tags = raw.match(/\[\d{1,2}:\d{1,2}(?:[.:]\d{1,3})?\]/g);
+    if (!tags) continue;
+    const text = raw.replace(/\[[^\]]*\]/g, '').trim();
+    if (!text) continue;
+    for (const tag of tags) {
+      const m = /\[(\d{1,2}):(\d{1,2})(?:[.:](\d{1,3}))?\]/.exec(tag);
+      if (!m) continue;
+      const t = +m[1] * 60 + +m[2] + (m[3] ? +`0.${m[3]}` : 0);
+      out.push({ t, text });
+    }
+  }
+  return out.sort((a, b) => a.t - b.t);
+}
+
+async function loadLyric(track) {
+  lyricLines = [];
+  lyricForId = null;
+  lyricIdx = -1;
+  $('lyric').hidden = true;
+  // 占位音 / mock / 无 id 的不取
+  if (!track || !track.id || /^mock/.test(track.id) || track.source === 'ncm-nourl') return;
+  const id = track.id;
+  try {
+    const lrc = await api.lyric(id);
+    if (currentTrack && currentTrack.id === id && lrc) {
+      lyricLines = parseLrc(lrc);
+      lyricForId = id;
+      if (lyricLines.length) $('lyric').hidden = false;
+    }
+  } catch {
+    /* 取词失败静默 */
+  }
+}
+
+function syncLyric(cur) {
+  if (!lyricLines.length || lyricForId !== (currentTrack && currentTrack.id)) return;
+  let i = lyricIdx;
+  // 线性向前找当前行（歌词行数有限，开销可忽略）
+  while (i + 1 < lyricLines.length && lyricLines[i + 1].t <= cur) i++;
+  while (i >= 0 && lyricLines[i].t > cur) i--;
+  if (i === lyricIdx) return;
+  lyricIdx = i;
+  $('lyricPrev').textContent = i > 0 ? lyricLines[i - 1].text : '';
+  $('lyricCur').textContent = i >= 0 ? lyricLines[i].text : '';
+  $('lyricNext').textContent = i + 1 < lyricLines.length ? lyricLines[i + 1].text : '';
 }
 
 // Set 内 pre/post-speak 播放——和 playSpeak（聊天/调度触发的台词打断）区分
@@ -396,6 +453,7 @@ audio.addEventListener('timeupdate', () => {
   $('curTime').textContent = fmtTime(c);
   $('durTime').textContent = fmtTime(d);
   $('barFill').style.width = d ? `${(c / d) * 100}%` : '0%';
+  if (mode === 'music') syncLyric(c);
   // prefetch：剩余 10s 时预热下一首
   if (mode === 'music' && d && d - c < 10 && nextTrack && nextTrack.url && warmed !== nextTrack.url) {
     warmed = nextTrack.url;
